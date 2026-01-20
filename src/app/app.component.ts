@@ -65,17 +65,17 @@ onIntroDone(): void {
       y: 50,
     });
 
-    gsap.set(['.maya-line', '.date-line'], { scaleY: 0 });
+    gsap.set(['.mor-line', '.date-line'], { scaleY: 0 });
     gsap.set('.calendar-icon', { opacity: 0, scale: 0.5 });
-    gsap.set('.maya', { x: 50 });
-    gsap.set('.on', { x: -50 });
+    gsap.set('.mor', { x: 50 });
+    gsap.set('.batel', { x: -50 });
     gsap.set('.image-container', { y: 100, opacity: 0 });
 
     tl.to('h1', { opacity: 1, y: 0, duration: 1, ease: 'back.out(1.7)' })
-      .to('.maya-line', { scaleY: 1, duration: 1.2, ease: 'power2.out' }, '-=0.5')
+      .to('.mor-line', { scaleY: 1, duration: 1.2, ease: 'power2.out' }, '-=0.5')
       .to('.date-line', { scaleY: 1, duration: 1.2, ease: 'power2.out' }, '-=0.8')
-      .to('.maya', { x: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.3')
-      .to('.on', { x: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.4')
+      .to('.mor', { x: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.3')
+      .to('.batel', { x: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.4')
       .to('.date p', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.1 }, '-=0.4')
       .to('.location', { opacity: 1, y: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.4')
       .to('.save-our-date', { opacity: 1, y: 0, duration: 1, ease: 'elastic.out(1, 0.75)' }, '-=0.2')
