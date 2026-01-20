@@ -1,0 +1,45 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+}
+
+/* שני פאנלים full screen */
+.panel {
+  position: fixed;
+  inset: 0;
+  background: var(--primary-color, #ad8989);
+  display: grid;
+  place-items: center;
+  will-change: transform, clip-path, opacity;
+}
+
+/* מצב התחלתי: חיתוך אנכי (חצי-חצי) */
+.panel--left {
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+}
+
+.panel--right {
+  clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+}
+
+/* MB רגיל ושלם במרכז (אותו דבר בשני הפאנלים) */
+.mb {
+  font-family: var(--font-family-primary, serif);
+  color: #000000;
+  font-size: clamp(72px, 18vw, 180px);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  user-select: none;
+
+  /* מונע “פלאשים”/קפיצות במובייל */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}

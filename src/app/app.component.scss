@@ -1,0 +1,60 @@
+/* ===== Digit swap animation (no ghost) ===== */
+
+.cd__digit {
+  position: relative;
+}
+
+.cd__digit [data-pos="next"] {
+  z-index: 2;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cd__digit [data-pos="prev"] {
+  z-index: 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* prev: מתחיל מיד להיעלם (החצי הראשון מהר) */
+.cd__prev-digit-fade {
+  opacity: 1;
+  animation: prevFadeOut 0.5s linear forwards;
+}
+
+/* next: נכנס ומתבהר */
+.cd__next-digit-fade {
+  animation: nextFadeIn 0.5s ease-in-out forwards;
+}
+
+/* roll רק על next */
+.cd__digit--roll-in [data-pos="next"] {
+  animation: rollIn 0.5s ease-in-out forwards;
+}
+
+/* ==== keyframes ==== */
+
+/* מפיל את ה-next מלמעלה */
+@keyframes rollIn {
+  from { transform: translateY(-110%); }
+  to { transform: translateY(0); }
+}
+
+/* next מתבהר */
+@keyframes nextFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* prev: נעלם ממש מהר בתחילת האנימציה כדי שלא “יבזיק” */
+@keyframes prevFadeOut {
+  0%   { opacity: 1; }
+  15%  { opacity: 0; }  /* כאן הורגים את הגליץ */
+  100% { opacity: 0; }
+}
+
+/* בונוס: חדות + פחות פלאשים */
+.cd__digit [data-pos] {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}

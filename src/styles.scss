@@ -1,1 +1,313 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #fff3f3;
+  --glowing-color: #ffa270;
+  --text-color: #000000;
+  --background-color: #ffebeb;
+  --font-family-primary: serif;
+  --font-family-secondary: sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  color: var(--text-color);
+  font-family: var(--font-family-primary);
+  position: relative;
+}
+
+/* =========================
+   LAYOUT
+   ========================= */
+
+.content {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--primary-color);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top-right initials */
+.mor-batel {
+  position: absolute;
+  top: 3rem;
+  right: 2rem;
+  line-height: 1;
+  font-size: 3rem;
+  letter-spacing: 0.3rem;
+  width: fit-content;
+  display: flex;
+}
+
+.letter-container {
+  display: inline-block;
+  overflow: hidden;
+  width: 50px;
+  text-align: center;
+}
+
+.mor-line {
+  width: 1px;
+  height: 200%;
+  background-color: var(--text-color);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+/* Headline */
+.save-our-date {
+  letter-spacing: 0.4rem;
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  text-align: center;
+  margin-top: 20vh;
+  z-index: 2;
+}
+
+h1 {
+  letter-spacing: 0.7rem;
+  text-align: center;
+  font-size: clamp(1rem, 5vw, 2rem);
+  margin-top: 1rem;
+  z-index: 2;
+}
+
+/* Date block bottom-left */
+.date {
+  position: absolute;
+  font-size: min(7rem, 13vw);
+  letter-spacing: 0.5rem;
+  bottom: 6rem;
+  left: 2rem;
+  width: fit-content;
+  z-index: 2;
+}
+
+.date-line {
+  width: 1px;
+  height: 250px;
+  background-color: var(--text-color);
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+/* Location bottom-right */
+.location {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* =========================
+   COUNTDOWN
+   ========================= */
+
+.countdown {
+  padding-top: 1rem;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  z-index: 2;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cd {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.cd__unit-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cd__unit {
+  font-size: clamp(1.8rem, 8vw, 3.2rem);
+  line-height: 1;
+  margin: 0 0.5rem;
+  width: auto;
+  font-family: var(--font-family-primary);
+  color: var(--text-color);
+}
+
+/* digits row */
+.cd__digits {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* יציב לאנימציה */
+  height: 1.05em;
+  overflow: hidden;
+  font-weight: 700;
+}
+
+/* single digit "slot" */
+.cd__digit {
+  position: relative;
+  width: 1ch;
+  height: 1.05em;
+  display: inline-block;
+
+  /* מיישר את שתי השכבות בדיוק לאמצע */
+  vertical-align: top;
+}
+
+/* next/prev layers sit on top of each other */
+.cd__digit [data-pos] {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  transform: translateZ(0); /* פחות "מריחה" במובייל */
+}
+
+/* default: show next, hide prev */
+.cd__digit [data-pos="next"] {
+  opacity: 1;
+}
+
+.cd__digit [data-pos="prev"] {
+  opacity: 0;
+}
+
+/* labels */
+.cd__unit-label {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 0.7rem;
+  line-height: 1;
+  font-family: var(--font-family-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08rem;
+  margin-top: 0.45rem;
+}
+
+/* =========================
+   IMAGE
+   ========================= */
+
+.image-container {
+  position: absolute;
+  overflow: hidden;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.image-container::before {
+  content: '';
+  position: absolute;
+  background: linear-gradient(to bottom, var(--primary-color) 0%, transparent 60%);
+  pointer-events: none;
+  height: 50%;
+  width: 160%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.image-container img {
+  height: 100%;
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  max-height: 50vh;
+}
+
+/* calendar icon */
+.calendar-icon {
+  position: absolute;
+  height: 150px;
+  z-index: 3;
+  cursor: pointer;
+}
+
+/* =========================
+   iOS / MOBILE FIXES
+   ========================= */
+
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: -webkit-fill-available;
+  }
+  .content {
+    min-height: -webkit-fill-available;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .calendar-icon {
+    height: 100px;
+  }
+
+  html {
+    height: -webkit-fill-available;
+  }
+
+  /* לא "fix" את כל ה-body כי זה עושה בעיות גלילה/פריסה */
+  body {
+    min-height: -webkit-fill-available;
+    width: 100%;
+  }
+
+  .content {
+    min-height: -webkit-fill-available;
+    width: 100%;
+    height: 100%;
+  }
+
+  .location {
+    letter-spacing: 0.4rem;
+    font-size: 1rem;
+  }
+
+  .date {
+    bottom: 5rem;
+    left: 1.2rem;
+  }
+}
