@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//morrevah10//Save Our Date//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+
+BEGIN:VEVENT
+UID:save-our-date-20260828T120000-mor-batal@morrevah10.github.io
+DTSTAMP:20260120T000000Z
+SUMMARY:Mor & Batal - Save the Date
+DESCRIPTION:Save the date! You can edit time/details after adding to your calendar.
+LOCATION:Tel Aviv\, Israel
+DTSTART;TZID=Asia/Jerusalem:20260828T120000
+DTEND;TZID=Asia/Jerusalem:20260828T170000
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+
+END:VCALENDAR
