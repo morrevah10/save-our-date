@@ -3,9 +3,22 @@
 
 
 <div class="content">
-  <a class="calendar-link" href="assets/calendar.ics" target="_blank" rel="noopener">
+  <!-- <a class="calendar-link" href="assets/calendar.ics" target="_blank" rel="noopener">
   <img class="calendar-icon" src="assets/images/calendar.png" alt="Calendar Icon" />
+</a> -->
+
+<a class="calendar-link" (click)="addToCalendar()">
+  <img class="calendar-icon" src="assets/images/calendar2.png" alt="Calendar Icon" />
 </a>
+
+<!-- אופציונלי: קישורי גיבוי קטנים -->
+<!-- <div class="calendar-fallback">
+  <a [href]="googleCalendarUrl" target="_blank" rel="noopener">Google</a>
+  <a [href]="outlookCalendarUrl" target="_blank" rel="noopener">Outlook</a>
+  <a [href]="icsUrl">Apple (ICS)</a>
+</div> -->
+
+
 
   <div class="mor-batel">
     <div class="letter-container"><div class="mor">M</div></div>
@@ -13,6 +26,9 @@
     <div class="mor-line"></div>
   </div>
 
+  
+  
+<div class="center-stack">
   <p class="save-our-date">Save our date</p>
   <h1>Mor & Batel</h1>
 
@@ -107,10 +123,11 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 
   <div class="image-container">
-    <!-- <img src="assets/images/img.jpeg" alt="mor_and_batel"> -->
+    <img src="assets/images/cover3.png" alt="mor_and_batel">
   </div>
 </div>

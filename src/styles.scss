@@ -1,8 +1,8 @@
 :root {
-  --primary-color: #fff3f3;
-  --glowing-color: #ffa270;
+  --primary-color: #ffffff;
+  --glowing-color: #ffffff;
   --text-color: #000000;
-  --background-color: #ffebeb;
+  --background-color: transparent; /* שקוף באמת */
   --font-family-primary: serif;
   --font-family-secondary: sans-serif;
 }
@@ -24,11 +24,13 @@ body {
 
 body {
   min-height: 100vh;
-  background-size: cover;
-  background-position: center;
   color: var(--text-color);
   font-family: var(--font-family-primary);
-  position: relative;
+
+  background-image: url("./assets/images/cover.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* =========================
@@ -40,7 +42,7 @@ body {
   min-height: 100dvh;
   width: 100vw;
   overflow: hidden;
-  background-color: var(--primary-color);
+  background-color: transparent; /* ✅ לא מסתיר את הרקע */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -49,13 +51,14 @@ body {
 /* Top-right initials */
 .mor-batel {
   position: absolute;
-  top: 3rem;
-  right: 2rem;
+  top: 1rem;
+  right: 1rem;
   line-height: 1;
-  font-size: 3rem;
+  font-size: 2.7rem;
   letter-spacing: 0.3rem;
   width: fit-content;
   display: flex;
+  z-index: 2;
 }
 
 .letter-container {
@@ -81,14 +84,14 @@ body {
   letter-spacing: 0.4rem;
   font-size: clamp(2.5rem, 10vw, 5rem);
   text-align: center;
-  margin-top: 20vh;
+  margin-top: 35px !important;
   z-index: 2;
 }
 
 h1 {
   letter-spacing: 0.7rem;
   text-align: center;
-  font-size: clamp(1rem, 5vw, 2rem);
+  font-size: clamp(1.4rem, 5.5vw, 2.6rem); /* ✅ גדול יותר */
   margin-top: 1rem;
   z-index: 2;
 }
@@ -96,9 +99,9 @@ h1 {
 /* Date block bottom-left */
 .date {
   position: absolute;
-  font-size: min(7rem, 13vw);
+  font-size: min(7rem, 9vw);
   letter-spacing: 0.5rem;
-  bottom: 6rem;
+  bottom: 0rem;
   left: 2rem;
   width: fit-content;
   z-index: 2;
@@ -107,7 +110,7 @@ h1 {
 .date-line {
   width: 1px;
   height: 250px;
-  background-color: var(--text-color);
+  // background-color: var(--text-color); /* שיהיה נראה */
   position: absolute;
   left: 50%;
   top: 100%;
@@ -118,7 +121,7 @@ h1 {
 /* Location bottom-right */
 .location {
   position: absolute;
-  bottom: 2rem;
+  bottom: -5rem;
   right: 2rem;
   font-size: 1.2rem;
   letter-spacing: 0.7rem;
@@ -133,7 +136,7 @@ h1 {
    ========================= */
 
 .countdown {
-  padding-top: 1rem;
+  padding-top: 7rem;
   letter-spacing: 0.3rem;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
@@ -148,20 +151,20 @@ h1 {
 
 .cd {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   text-align: center;
-  gap: 1rem;
+  // gap: 1rem;
 }
 
 .cd__unit-group {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  // gap: 1rem;
 }
 
 .cd__unit {
-  font-size: clamp(1.8rem, 8vw, 3.2rem);
+  font-size: clamp(0.8rem, 5vw, 2.2rem);
   line-height: 1;
   margin: 0 0.5rem;
   width: auto;
@@ -169,53 +172,36 @@ h1 {
   color: var(--text-color);
 }
 
-/* digits row */
 .cd__digits {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* יציב לאנימציה */
   height: 1.05em;
   overflow: hidden;
   font-weight: 700;
 }
 
-/* single digit "slot" */
 .cd__digit {
   position: relative;
   width: 1ch;
   height: 1.05em;
   display: inline-block;
-
-  /* מיישר את שתי השכבות בדיוק לאמצע */
   vertical-align: top;
 }
 
-/* next/prev layers sit on top of each other */
 .cd__digit [data-pos] {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
   line-height: 1;
-  transform: translateZ(0); /* פחות "מריחה" במובייל */
+  transform: translateZ(0);
 }
 
-/* default: show next, hide prev */
-.cd__digit [data-pos="next"] {
-  opacity: 1;
-}
-
-.cd__digit [data-pos="prev"] {
-  opacity: 0;
-}
-
-/* labels */
 .cd__unit-label {
   color: rgba(0, 0, 0, 0.85);
-  font-size: 0.7rem;
+  font-size: 0.5rem;
   line-height: 1;
   font-family: var(--font-family-secondary);
   text-transform: uppercase;
@@ -231,19 +217,22 @@ h1 {
   position: absolute;
   overflow: hidden;
   display: flex;
-  bottom: 0;
   left: 0;
   right: 0;
   width: 100%;
   pointer-events: none;
+  z-index: 2;
+
+  bottom: -18px; /* ✅ מוריד מעט למטה */
 }
 
+/* גרדיאנט עליון עדין שלא "מלבין" לך את הרקע */
 .image-container::before {
-  content: '';
+  // content: "";
   position: absolute;
-  background: linear-gradient(to bottom, var(--primary-color) 0%, transparent 60%);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 70%);
   pointer-events: none;
-  height: 50%;
+  height: 55%;
   width: 160%;
   left: 50%;
   transform: translateX(-50%);
@@ -251,17 +240,20 @@ h1 {
 }
 
 .image-container img {
-  height: 100%;
-  width: 100%;
+  height: 50vh;
+  width: 85%;
   display: block;
   object-fit: cover;
-  object-position: center;
-  max-height: 50vh;
+  object-position: center -90%;
+  max-height: 40vh;
+  opacity: 0.85; 
 }
 
 /* calendar icon */
 .calendar-icon {
   position: absolute;
+  top: -5px;
+  left: 0px;
   height: 150px;
   z-index: 3;
   cursor: pointer;
@@ -289,7 +281,6 @@ h1 {
     height: -webkit-fill-available;
   }
 
-  /* לא "fix" את כל ה-body כי זה עושה בעיות גלילה/פריסה */
   body {
     min-height: -webkit-fill-available;
     width: 100%;
@@ -307,7 +298,69 @@ h1 {
   }
 
   .date {
-    bottom: 5rem;
+    bottom: -18rem;
     left: 1.2rem;
   }
+
+  .image-container {
+    bottom: -10px; /* קצת פחות למטה במובייל */
+  }
+}
+
+
+
+/* =========================
+   CENTER STACK (move text+countdown together)
+   ========================= */
+
+:root{
+  /* שליטה מהירה: להזיז את הבלוק המרכזי */
+  --center-shift-y: 3.5vh; /* תעלה/תוריד: 2vh-6vh */
+}
+
+/* wrapper חדש */
+.center-stack{
+  position: relative;
+  z-index: 3;
+  margin-top: calc(20vh + var(--center-shift-y)); /* במקום margin-top של הכותרת */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* מבטלים את המרווח המקורי שהיה לך על הכותרת */
+.save-our-date{
+  margin-top: 0 !important;
+}
+
+/* =========================
+   BOTTOM IMAGE: free control
+   ========================= */
+
+:root{
+  /* שליטה על התמונה למטה */
+  --bottom-img-width: 120%;   /* 100% רגיל, 120% יותר גדול */
+  --bottom-img-maxh: 42vh;    /* גובה מקסימלי */
+  --bottom-img-x: 0px;        /* ימינה + / שמאלה - */
+  --bottom-img-y: -5px;       /* למטה + / למעלה - */
+  --bottom-img-opacity: 0.82; /* פייד */
+}
+
+.image-container{
+  z-index: 2;
+  overflow: visible; /* חשוב כדי “לשחרר” */
+}
+
+.image-container img{
+  width: var(--bottom-img-width);
+  max-height: var(--bottom-img-maxh);
+  height: auto;                 /* יותר טבעי משלך */
+  opacity: var(--bottom-img-opacity);
+
+  position: relative;
+  left: var(--bottom-img-x);
+  top: var(--bottom-img-y);
+
+  object-fit: contain;          /* ✅ כדי שלא ייחתך */
+  object-position: center bottom;
 }

@@ -63,4 +63,36 @@ export class IntroOverlayComponent implements AfterViewInit {
     )
     .to(wrapEl, { opacity: 0, duration: 0.15 }, '-=0.1');
   }
+
+  googleCalendarUrl =
+  'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+  '&text=Save%20the%20Date' +
+  '&dates=20260828T090000Z/20260828T140000Z' +
+  '&details=Save%20the%20date' +
+  '&location=Tel%20Aviv';
+
+outlookCalendarUrl =
+  'https://outlook.live.com/calendar/0/deeplink/compose' +
+  '?subject=Save%20the%20Date' +
+  '&body=Save%20the%20date' +
+  '&location=Tel%20Aviv' +
+  '&startdt=2026-08-28T12:00:00' +
+  '&enddt=2026-08-28T17:00:00';
+
+icsUrl = '/save-our-date/calendar.ics'; // שים לב לבייס־הרף של GitHub Pages
+
+addToCalendar(e: MouseEvent) {
+  e.preventDefault();
+
+  const ua = navigator.userAgent || '';
+  const isAppleDevice = /iPhone|iPad|iPod|Macintosh/.test(ua);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+
+  // ברירת מחדל: אפל -> ICS, אחרת -> גוגל
+  const urlToOpen = (isAppleDevice && isSafari) ? this.icsUrl : this.googleCalendarUrl;
+
+  // פותח בטאב חדש (פחות נחסם)
+  window.open(urlToOpen, '_blank', 'noopener');
+}
+
 }

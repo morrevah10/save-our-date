@@ -27,6 +27,40 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   sStr = '00';
   showIntro = true;
 
+  // === Calendar links ===
+
+// חשוב: ב-GitHub Pages הנתיב צריך לכלול את שם הריפו
+icsUrl = '/save-our-date/calendar.ics';
+
+// Google Calendar (פותח דף הוספה)
+googleCalendarUrl =
+  'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+  '&text=Mor%20%26%20Batel%20wedding%F0%9F%92%8D' +
+  '&dates=20260828T090000Z/20260828T140000Z' +
+  '&details=Save%20the%20date' +
+  '&location=%D7%90%D7%9C%D7%94%20-%20%D7%92%D7%9F%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%D7%99%D7%9D%20%D7%91%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94%2C%20%D7%94%D7%90%D7%9C%D7%95%D7%A4%D7%99%D7%9D%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94';
+
+// Outlook.com
+outlookCalendarUrl =
+  'https://outlook.live.com/calendar/0/deeplink/compose' +
+  '?subject=Mor%20%26%20Batel%20wedding%F0%9F%92%8D' +
+  '&body=Save%20the%20date' +
+  '&location=%D7%90%D7%9C%D7%94%20-%20%D7%92%D7%9F%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%D7%99%D7%9D%20%D7%91%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94%2C%20%D7%94%D7%90%D7%9C%D7%95%D7%A4%D7%99%D7%9D%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94' +
+  '&startdt=2026-08-28T12:00:00' +
+  '&enddt=2026-08-28T17:00:00';
+
+addToCalendar(): void {
+  const ua = navigator.userAgent || '';
+
+  const isAppleDevice = /iPhone|iPad|iPod|Macintosh/.test(ua);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+
+  // Apple + Safari -> ICS, אחרת -> Google
+  const urlToOpen = (isAppleDevice && isSafari) ? this.icsUrl : this.googleCalendarUrl;
+
+  window.open(urlToOpen, '_blank', 'noopener');
+}
+
 onIntroDone(): void {
   this.showIntro = false;
 }
