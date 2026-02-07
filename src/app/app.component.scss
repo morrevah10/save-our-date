@@ -1292,13 +1292,9 @@
    ========================= */
 .viewport {
   width: 100vw;
-  height: 100svh;
+  height: 100vh;
   overflow: hidden;
-  padding: 
-    env(safe-area-inset-top) 
-    env(safe-area-inset-right) 
-    env(safe-area-inset-bottom) 
-    env(safe-area-inset-left);
+  padding: 0;
   display: grid;
   place-items: center;
 }
@@ -1309,22 +1305,14 @@
   height: calc(var(--design-h) * 1px);
   color: var(--text-color);
   font-family: var(--font-family-primary);
-
-  --sx: calc(
-    (100vw - env(safe-area-inset-left) - env(safe-area-inset-right)) /
-      (var(--design-w) * 1px)
-  );
-  --sy: calc(
-    (100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) /
-      (var(--design-h) * 1px)
-  );
+  
+  --sx: calc(100vw / (var(--design-w) * 1px));
+  --sy: calc(100vh / (var(--design-h) * 1px));
   --s-fit: min(var(--sx), var(--sy));
   --s-cover: max(var(--sx), var(--sy));
-
+  
   transform: scale(
-    calc(
-      var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover)
-    )
+    calc(var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover))
   );
   transform-origin: center center;
   -webkit-font-smoothing: antialiased;
