@@ -1,9 +1,1631 @@
-/* ===== Digit swap animation (no ghost) ===== */
+// // // // .cd__digit { position: relative; }
+
+// // // // .cd__digit [data-pos="next"] {
+// // // //   z-index: 2;
+// // // //   backface-visibility: hidden;
+// // // //   -webkit-backface-visibility: hidden;
+// // // // }
+
+// // // // .cd__digit [data-pos="prev"] {
+// // // //   display: none !important; /* ✅ אין גליץ */
+// // // // }
+
+// // // // .cd__next-digit-fade {
+// // // //   animation: nextFadeIn 0.5s ease-in-out forwards;
+// // // // }
+
+// // // // .cd__digit--roll-in [data-pos="next"] {
+// // // //   animation: rollIn 0.5s ease-in-out forwards;
+// // // // }
+
+// // // // @keyframes rollIn {
+// // // //   from { transform: translateY(-110%); }
+// // // //   to { transform: translateY(0); }
+// // // // }
+
+// // // // @keyframes nextFadeIn {
+// // // //   from { opacity: 0; }
+// // // //   to { opacity: 1; }
+// // // // }
+
+
+// // // /* =========================
+// // //    VIEWPORT + STAGE (Stable everywhere)
+// // //    ========================= */
+
+// // // .viewport {
+// // //   width: 100vw;
+// // //   height: 100svh;
+
+// // //   /* safe-area לכל טלפון */
+// // //   padding:
+// // //     env(safe-area-inset-top)
+// // //     env(safe-area-inset-right)
+// // //     env(safe-area-inset-bottom)
+// // //     env(safe-area-inset-left);
+
+// // //   display: grid;
+// // //   place-items: center;
+
+// // //   /* רקע העמוד */
+// // //   background: url("./assets/images/cover.png") center / cover no-repeat;
+// // // }
+
+// // // /* הקנבס הקבוע (כמו Figma artboard) */
+// // // .stage {
+// // //   position: relative;
+// // //   width: calc(var(--design-w) * 1px);
+// // //   height: calc(var(--design-h) * 1px);
+
+// // //   color: var(--text-color);
+// // //   font-family: var(--font-family-primary);
+
+// // //   /* scale לפי המסך (FIT / COVER) */
+// // //   --sx: calc(
+// // //     (100vw - env(safe-area-inset-left) - env(safe-area-inset-right)) /
+// // //       (var(--design-w) * 1px)
+// // //   );
+// // //   --sy: calc(
+// // //     (100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) /
+// // //       (var(--design-h) * 1px)
+// // //   );
+
+// // //   --s-fit: min(var(--sx), var(--sy));
+// // //   --s-cover: max(var(--sx), var(--sy));
+
+// // //   transform: scale(
+// // //     calc(var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover))
+// // //   );
+// // //   transform-origin: center center;
+
+// // //   /* טיפ: עוזר לטקסט להראות חד יותר בזמן scale בדפדפנים מסוימים */
+// // //   -webkit-font-smoothing: antialiased;
+// // //   -moz-osx-font-smoothing: grayscale;
+// // // }
+
+// // // /* =========================
+// // //    ABSOLUTE ELEMENT SYSTEM (independent)
+// // //    ========================= */
+
+// // // .el {
+// // //   position: absolute;
+// // //   left: calc(var(--x, 0) * 1px);
+// // //   top: calc(var(--y, 0) * 1px);
+// // //   z-index: var(--z, 5);
+// // //   transform: translate(var(--tx, 0), var(--ty, 0));
+// // // }
+
+// // // /* =========================
+// // //    DEFAULT POSITIONS (תכוון כאן)
+// // //    ========================= */
+// // // /* תזיז הכל רק דרך המשתנים האלה */
+// // // .calendar-link { --x: 16; --y: 18; --z: 10; }
+// // // .mor-batel     { --x: 292; --y: 18; --z: 10; }
+// // // .center-stack  { --x: 195; --y: 165; --tx: -50%; --z: 8; }
+// // // .bottom-bar    { --x: 20; --y: 575; --z: 8; }
+// // // .image-container { --x: 0; --y: 470; --z: 2; }
+
+// // // /* =========================
+// // //    TOP: Calendar
+// // //    ========================= */
+
+// // // .calendar-link {
+// // //   cursor: pointer;
+// // // }
+
+// // // .calendar-icon {
+// // //   height: 120px; /* קבוע — לא משתנה עם מסך */
+// // //   display: block;
+// // // }
+
+// // // /* =========================
+// // //    TOP RIGHT: MB
+// // //    ========================= */
+
+// // // .mor-batel {
+// // //   display: flex;
+// // //   line-height: 1;
+// // //   font-size: 44px;         /* קבוע */
+// // //   letter-spacing: 6px;     /* קבוע */
+// // // }
+
+// // // .letter-container {
+// // //   width: 50px;
+// // //   text-align: center;
+// // // }
+
+// // // /* אם לא צריך את הקו — אפשר למחוק */
+// // // .mor-line {
+// // //   display: none;
+// // // }
+
+// // // /* =========================
+// // //    CENTER
+// // //    ========================= */
+
+// // // .center-stack {
+// // //   text-align: center;
+// // // }
+
+// // // .save-our-date {
+// // //   font-size: 56px;
+// // //   letter-spacing: 10px;
+// // //   margin: 0;
+// // // }
+
+// // // h1 {
+// // //   font-size: 28px;
+// // //   letter-spacing: 12px;
+// // //   margin: 12px 0 0;
+// // // }
+
+// // // /* countdown container */
+// // // .countdown {
+// // //   margin-top: 48px;
+// // //   text-transform: uppercase;
+// // //   font-variant-numeric: tabular-nums;
+// // // }
+
+// // // /* layout של ה-countdown */
+// // // .cd {
+// // //   display: flex;
+// // //   justify-content: center;
+// // //   flex-wrap: nowrap;
+// // //   gap: 14px;
+// // // }
+
+// // // .cd__unit-group {
+// // //   display: flex;
+// // //   gap: 14px;
+// // // }
+
+// // // .cd__unit {
+// // //   font-size: 22px;
+// // //   line-height: 1;
+// // //   font-family: var(--font-family-primary);
+// // //   color: var(--text-color);
+// // // }
+
+// // // .cd__digits {
+// // //   position: relative;
+// // //   display: flex;
+// // //   justify-content: center;
+// // //   align-items: center;
+// // //   height: 1.05em;
+// // //   overflow: hidden;
+// // //   font-weight: 700;
+// // // }
+
+// // // .cd__digit {
+// // //   position: relative;
+// // //   width: 1ch;
+// // //   height: 1.05em;
+// // //   display: inline-block;
+// // //   vertical-align: top;
+// // // }
+
+// // // .cd__digit [data-pos] {
+// // //   position: absolute;
+// // //   inset: 0;
+// // //   display: grid;
+// // //   place-items: center;
+// // //   line-height: 1;
+// // //   transform: translateZ(0);
+// // // }
+
+// // // .cd__unit-label {
+// // //   font-family: var(--font-family-secondary);
+// // //   font-size: 9px;
+// // //   letter-spacing: 1.2px;
+// // //   margin-top: 8px;
+// // //   color: rgba(0, 0, 0, 0.85);
+// // // }
+
+// // // /* =========================
+// // //    BOTTOM
+// // //    ========================= */
+
+// // // .bottom-bar {
+// // //   width: calc((var(--design-w) - 40) * 1px);
+// // //   display: flex;
+// // //   justify-content: space-between;
+// // //   align-items: flex-end;
+// // //   gap: 16px;
+// // // }
+
+// // // .date {
+// // //   font-size: 78px;
+// // //   letter-spacing: 10px;
+// // //   line-height: 0.92;
+// // // }
+
+// // // .location {
+// // //   font-size: 18px;
+// // //   letter-spacing: 10px;
+// // //   text-align: right;
+// // //   line-height: 1.35;
+// // // }
+
+// // // /* =========================
+// // //    BOTTOM IMAGE (behind)
+// // //    ========================= */
+
+// // // .image-container {
+// // //   pointer-events: none;
+// // //   width: 100%;
+// // // }
+
+// // // .image-container img {
+// // //   width: calc(var(--bottom-img-width) * 100%);
+// // //   opacity: var(--bottom-img-opacity);
+
+// // //   position: relative;
+// // //   left: calc(var(--bottom-img-x) * 1px);
+// // //   top: calc(var(--bottom-img-y) * 1px);
+
+// // //   height: auto;
+// // //   object-fit: contain;
+// // //   object-position: center bottom;
+
+// // //   display: block;
+// // // }
+
+// // // /* =========================
+// // //    Countdown animations (שלך, נשאר)
+// // //    ========================= */
+
+// // // .cd__digit [data-pos="next"] {
+// // //   z-index: 2;
+// // //   backface-visibility: hidden;
+// // //   -webkit-backface-visibility: hidden;
+// // // }
+
+// // // .cd__digit [data-pos="prev"] {
+// // //   display: none !important; /* ✅ אין גליץ */
+// // // }
+
+// // // .cd__next-digit-fade {
+// // //   animation: nextFadeIn 0.5s ease-in-out forwards;
+// // // }
+
+// // // .cd__digit--roll-in [data-pos="next"] {
+// // //   animation: rollIn 0.5s ease-in-out forwards;
+// // // }
+
+// // // @keyframes rollIn {
+// // //   from { transform: translateY(-110%); }
+// // //   to   { transform: translateY(0); }
+// // // }
+
+// // // @keyframes nextFadeIn {
+// // //   from { opacity: 0; }
+// // //   to   { opacity: 1; }
+// // // }
+
+
+
+
+
+// // /* =========================================================
+// //    Save-Our-Date / iPhone 17 Stage Layout (Stable + Elegant)
+// //    ========================================================= */
+
+// // // /* =========================
+// // //    VIEWPORT + STAGE (Stable everywhere)
+// // //    ========================= */
+
+// // // // .viewport { background: #f2f2f2 !important; }
+// // // // .stage { outline: 3px solid red !important; }
+// // // // .el { outline: 1px dashed blue !important; }
+
+
+// // // .viewport {
+// // //   width: 100vw;
+// // //   height: 100svh;
+
+// // //   padding:
+// // //     env(safe-area-inset-top)
+// // //     env(safe-area-inset-right)
+// // //     env(safe-area-inset-bottom)
+// // //     env(safe-area-inset-left);
+
+// // //   display: grid;
+// // //   place-items: center;
+
+// // //   /* background */
+// // //   background: url("/assets/images/cover.png") center / cover no-repeat;
+// // // }
+
+// // // .stage {
+// // //   position: relative;
+// // //   width: calc(var(--design-w) * 1px);
+// // //   height: calc(var(--design-h) * 1px);
+
+// // //   color: var(--text-color);
+// // //   font-family: var(--font-family-primary);
+
+// // //   /* scale: FIT recommended for invitations */
+// // //   --sx: calc(
+// // //     (100vw - env(safe-area-inset-left) - env(safe-area-inset-right)) /
+// // //       (var(--design-w) * 1px)
+// // //   );
+// // //   --sy: calc(
+// // //     (100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) /
+// // //       (var(--design-h) * 1px)
+// // //   );
+
+// // //   --s-fit: min(var(--sx), var(--sy));
+// // //   --s-cover: max(var(--sx), var(--sy));
+
+// // //   transform: scale(
+// // //     calc(var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover))
+// // //   );
+// // //   transform-origin: center center;
+
+// // //   -webkit-font-smoothing: antialiased;
+// // //   -moz-osx-font-smoothing: grayscale;
+// // // }
+
+// // // /* =========================
+// // //    ABSOLUTE ELEMENT SYSTEM (Independent positioning)
+// // //    ========================= */
+
+// // // .el {
+// // //   position: absolute;
+// // //   left: calc(var(--x, 0) * 1px);
+// // //   top: calc(var(--y, 0) * 1px);
+// // //   z-index: var(--z, 5);
+// // //   transform: translate(var(--tx, 0), var(--ty, 0));
+// // // }
+
+// // // /* =========================
+// // //    POSITIONS (iPhone 17 default)
+// // //    - You only tweak x/y here
+// // //    ========================= */
+
+// // // .calendar-link { --x: 18;  --y: 22;  --z: 10; }
+
+// // // .mor-batel     { --x: 312; --y: 18;  --z: 10; }
+
+// // // .center-stack  { --x: 201; --y: 140; --tx: -50%; --z: 8; }
+
+// // // .bottom-bar    { --x: 22;  --y: 610; --z: 8; }
+
+// // // .image-container { --x: 0; --y: 500; --z: 2; }
+
+// // // /* =========================
+// // //    TOP: Calendar
+// // //    ========================= */
+
+// // // .calendar-link {
+// // //   cursor: pointer;
+// // //   display: inline-block;
+// // // }
+
+// // // .calendar-icon {
+// // //   height: 120px;
+// // //   display: block;
+// // // }
+
+// // // /* =========================
+// // //    TOP RIGHT: MB
+// // //    ========================= */
+
+// // // .mor-batel {
+// // //   display: flex;
+// // //   align-items: flex-start;
+// // //   line-height: 1;
+// // //   font-size: 46px;       /* elegant + close to your original */
+// // //   letter-spacing: 7px;
+// // // }
+
+// // // .letter-container {
+// // //   width: 50px;
+// // //   text-align: center;
+// // // }
+
+// // // /* optional line (keep hidden) */
+// // // .mor-line {
+// // //   display: none;
+// // // }
+
+// // // /* =========================
+// // //    CENTER (Elegant typography like your original)
+// // //    ========================= */
+
+// // // .center-stack {
+// // //   text-align: center;
+// // //   pointer-events: none; /* prevent accidental selections */
+// // // }
+
+// // // .save-our-date {
+// // //   margin: 0;
+// // //   font-size: 74px;
+// // //   letter-spacing: 14px;
+// // //   font-weight: 400;
+// // // }
+
+// // // h1 {
+// // //   margin: 18px 0 0;
+// // //   font-size: 34px;
+// // //   letter-spacing: 16px;
+// // //   font-weight: 700;
+// // // }
+
+// // // /* =========================
+// // //    COUNTDOWN (Spacing + look restored)
+// // //    ========================= */
+
+// // // .countdown {
+// // //   margin-top: 58px;
+// // //   text-transform: uppercase;
+// // //   font-variant-numeric: tabular-nums;
+// // //   pointer-events: auto; /* allow text to render normally */
+// // // }
+
+// // // .cd {
+// // //   display: flex;
+// // //   justify-content: center;
+// // //   flex-wrap: nowrap;
+// // //   gap: 18px;
+// // // }
+
+// // // .cd__unit-group {
+// // //   display: flex;
+// // //   gap: 18px;
+// // // }
+
+// // // .cd__unit {
+// // //   font-size: 26px;
+// // //   line-height: 1;
+// // //   font-family: var(--font-family-primary);
+// // //   color: var(--text-color);
+// // // }
+
+// // // .cd__digits {
+// // //   position: relative;
+// // //   display: flex;
+// // //   justify-content: center;
+// // //   align-items: center;
+// // //   height: 1.05em;
+// // //   overflow: hidden;
+// // //   font-weight: 700;
+// // // }
+
+// // // .cd__digit {
+// // //   position: relative;
+// // //   width: 1ch;
+// // //   height: 1.05em;
+// // //   display: inline-block;
+// // //   vertical-align: top;
+// // // }
+
+// // // .cd__digit [data-pos] {
+// // //   position: absolute;
+// // //   inset: 0;
+// // //   display: grid;
+// // //   place-items: center;
+// // //   line-height: 1;
+// // //   transform: translateZ(0);
+// // // }
+
+// // // .cd__unit-label {
+// // //   font-family: var(--font-family-secondary);
+// // //   font-size: 10px;
+// // //   letter-spacing: 1.6px;
+// // //   margin-top: 10px;
+// // //   color: rgba(0, 0, 0, 0.85);
+// // // }
+
+// // // /* =========================
+// // //    BOTTOM (Big date + elegant location)
+// // //    ========================= */
+
+// // // .bottom-bar {
+// // //   width: calc((var(--design-w) - 44) * 1px);
+// // //   display: flex;
+// // //   justify-content: space-between;
+// // //   align-items: flex-end;
+// // //   gap: 16px;
+// // // }
+
+// // // .date {
+// // //   font-size: 92px;
+// // //   letter-spacing: 12px;
+// // //   line-height: 0.9;
+// // //   font-weight: 400;
+// // // }
+
+// // // .location {
+// // //   font-size: 20px;
+// // //   letter-spacing: 12px;
+// // //   text-align: right;
+// // //   line-height: 1.4;
+// // // }
+
+// // // /* =========================
+// // //    BOTTOM IMAGE (behind)
+// // //    ========================= */
+
+// // // .image-container {
+// // //   pointer-events: none;
+// // //   width: 100%;
+// // // }
+
+// // // .image-container img {
+// // //   width: calc(var(--bottom-img-width) * 100%);
+// // //   max-height: var(--bottom-img-maxh, 380px);
+// // //   height: auto;
+// // //   opacity: var(--bottom-img-opacity);
+
+// // //   position: relative;
+// // //   left: calc(var(--bottom-img-x) * 1px);
+// // //   top: calc(var(--bottom-img-y) * 1px);
+
+// // //   object-fit: contain;
+// // //   object-position: center bottom;
+// // //   display: block;
+// // // }
+
+// // // /* =========================
+// // //    Countdown animations (keep yours)
+// // //    ========================= */
+
+// // // .cd__digit [data-pos="next"] {
+// // //   z-index: 2;
+// // //   backface-visibility: hidden;
+// // //   -webkit-backface-visibility: hidden;
+// // // }
+
+// // // .cd__digit [data-pos="prev"] {
+// // //   display: none !important; /* no glitch */
+// // // }
+
+// // // .cd__next-digit-fade {
+// // //   animation: nextFadeIn 0.5s ease-in-out forwards;
+// // // }
+
+// // // .cd__digit--roll-in [data-pos="next"] {
+// // //   animation: rollIn 0.5s ease-in-out forwards;
+// // // }
+
+// // // @keyframes rollIn {
+// // //   from { transform: translateY(-110%); }
+// // //   to   { transform: translateY(0); }
+// // // }
+
+// // // @keyframes nextFadeIn {
+// // //   from { opacity: 0; }
+// // //   to   { opacity: 1; }
+// // // }
+
+
+
+// // /* =========================
+// //    VIEWPORT + STAGE (Stable everywhere)
+// //    ========================= */
+
+// // .viewport {
+// //   width: 100vw;
+// //   height: 100svh;
+
+// //   padding:
+// //     env(safe-area-inset-top)
+// //     env(safe-area-inset-right)
+// //     env(safe-area-inset-bottom)
+// //     env(safe-area-inset-left);
+
+// //   display: grid;
+// //   place-items: center;
+
+// //   /* background */
+// //   background: url("/assets/images/cover.png") center / cover no-repeat;
+// // }
+
+// // .stage {
+// //   position: relative;
+// //   width: calc(var(--design-w) * 1px);
+// //   height: calc(var(--design-h) * 1px);
+
+// //   color: var(--text-color);
+// //   font-family: var(--font-family-primary);
+
+// //   /* scale: FIT recommended for invitations */
+// //   --sx: calc(
+// //     (100vw - env(safe-area-inset-left) - env(safe-area-inset-right)) /
+// //       (var(--design-w) * 1px)
+// //   );
+// //   --sy: calc(
+// //     (100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) /
+// //       (var(--design-h) * 1px)
+// //   );
+
+// //   --s-fit: min(var(--sx), var(--sy));
+// //   --s-cover: max(var(--sx), var(--sy));
+
+// //   transform: scale(
+// //     calc(var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover))
+// //   );
+// //   transform-origin: center center;
+
+// //   -webkit-font-smoothing: antialiased;
+// //   -moz-osx-font-smoothing: grayscale;
+// // }
+
+// // /* =========================
+// //    ABSOLUTE ELEMENT SYSTEM
+// //    ========================= */
+
+// // .el {
+// //   position: absolute;
+// //   left: calc(var(--x, 0) * 1px);
+// //   top: calc(var(--y, 0) * 1px);
+// //   z-index: var(--z, 5);
+// //   transform: translate(var(--tx, 0), var(--ty, 0));
+// // }
+
+// // /* =========================
+// //    POSITIONS (iPhone 17 tuned)
+// //    ========================= */
+
+// // .calendar-link    { --x: 18;  --y: 24;  --z: 10; }
+// // .mor-batel        { --x: 324; --y: 22;  --z: 10; }
+
+// // /* מרכז קצת יותר למעלה, כדי לפנות “אוויר” */
+// // .center-stack     { --x: 201; --y: 125; --tx: -50%; --z: 8; }
+
+// // /* הבוטום יותר נמוך — שלא יחתוך/יתנגש בזוג */
+// // .bottom-bar       { --x: 22;  --y: 650; --z: 9; }
+
+// // /* האיור יורד עוד קצת */
+// // .image-container  { --x: 0;   --y: 520; --z: 2; }
+
+// // /* =========================
+// //    TOP: Calendar
+// //    ========================= */
+
+// // .calendar-link {
+// //   cursor: pointer;
+// //   display: inline-block;
+// // }
+
+// // .calendar-icon {
+// //   height: 120px;
+// //   display: block;
+// // }
+
+// // /* =========================
+// //    TOP RIGHT: MB
+// //    ========================= */
+
+// // .mor-batel {
+// //   display: flex;
+// //   align-items: flex-start;
+// //   line-height: 1;
+
+// //   font-size: 46px;
+// //   letter-spacing: 7px;
+// // }
+
+// // .letter-container {
+// //   width: 50px;
+// //   text-align: center;
+// // }
+
+// // .mor-line {
+// //   display: none;
+// // }
+
+// // /* =========================
+// //    CENTER (Elegant typography)
+// //    ========================= */
+
+// // .center-stack {
+// //   text-align: center;
+// //   pointer-events: none;
+// // }
+
+// // .save-our-date {
+// //   margin: 0;
+
+// //   /* קצת יותר דומה לתמונה המקורית */
+// //   font-size: 72px;
+// //   letter-spacing: 14px;
+// //   font-weight: 400;
+// // }
+
+// // h1 {
+// //   margin: 16px 0 0;
+
+// //   font-size: 34px;
+// //   letter-spacing: 16px;
+// //   font-weight: 700;
+// // }
+
+// // /* =========================
+// //    COUNTDOWN
+// //    ========================= */
+
+// // .countdown {
+// //   margin-top: 54px;
+// //   text-transform: uppercase;
+// //   font-variant-numeric: tabular-nums;
+// //   pointer-events: auto;
+// // }
+
+// // .cd {
+// //   display: flex;
+// //   justify-content: center;
+// //   flex-wrap: nowrap;
+// //   gap: 18px;
+// // }
+
+// // .cd__unit-group {
+// //   display: flex;
+// //   gap: 18px;
+// // }
+
+// // .cd__unit {
+// //   font-size: 26px;
+// //   line-height: 1;
+// //   font-family: var(--font-family-primary);
+// //   color: var(--text-color);
+// // }
+
+// // .cd__digits {
+// //   position: relative;
+// //   display: flex;
+// //   justify-content: center;
+// //   align-items: center;
+// //   height: 1.05em;
+// //   overflow: hidden;
+// //   font-weight: 700;
+// // }
+
+// // .cd__digit {
+// //   position: relative;
+// //   width: 1ch;
+// //   height: 1.05em;
+// //   display: inline-block;
+// //   vertical-align: top;
+// // }
+
+// // .cd__digit [data-pos] {
+// //   position: absolute;
+// //   inset: 0;
+// //   display: grid;
+// //   place-items: center;
+// //   line-height: 1;
+// //   transform: translateZ(0);
+// // }
+
+// // .cd__unit-label {
+// //   font-family: var(--font-family-secondary);
+// //   font-size: 10px;
+// //   letter-spacing: 1.6px;
+// //   margin-top: 10px;
+// //   color: rgba(0, 0, 0, 0.85);
+// // }
+
+// // /* =========================
+// //    BOTTOM
+// //    ========================= */
+
+// // .bottom-bar {
+// //   width: calc((var(--design-w) - 44) * 1px);
+// //   display: flex;
+// //   justify-content: space-between;
+// //   align-items: flex-end;
+// //   gap: 16px;
+// // }
+
+// // .date {
+// //   font-size: 92px;
+// //   letter-spacing: 12px;
+// //   line-height: 0.9;
+// //   font-weight: 400;
+
+// //   /* “דחיפה” קלה כדי להתיישב כמו בתמונה */
+// //   position: relative;
+// //   left: -6px;
+// //   top: 10px;
+// // }
+
+// // .location {
+// //   font-size: 20px;
+// //   letter-spacing: 12px;
+// //   text-align: right;
+// //   line-height: 1.4;
+
+// //   /* מיקום פנימי קטן כדי ליישר יפה */
+// //   position: relative;
+// //   top: 6px;
+// // }
+
+// // /* =========================
+// //    BOTTOM IMAGE (behind)
+// //    ========================= */
+
+// // .image-container {
+// //   pointer-events: none;
+// //   width: 100%;
+// // }
+
+// // .image-container img {
+// //   width: calc(var(--bottom-img-width) * 100%);
+// //   max-height: var(--bottom-img-maxh);
+// //   height: auto;
+// //   opacity: var(--bottom-img-opacity);
+
+// //   position: relative;
+// //   left: calc(var(--bottom-img-x) * 1px);
+// //   top: calc(var(--bottom-img-y) * 1px);
+
+// //   object-fit: contain;
+// //   object-position: center bottom;
+// //   display: block;
+// // }
+
+// // /* =========================
+// //    Countdown animations
+// //    ========================= */
+
+// // .cd__digit [data-pos="next"] {
+// //   z-index: 2;
+// //   backface-visibility: hidden;
+// //   -webkit-backface-visibility: hidden;
+// // }
+
+// // .cd__digit [data-pos="prev"] {
+// //   display: none !important;
+// // }
+
+// // .cd__next-digit-fade {
+// //   animation: nextFadeIn 0.5s ease-in-out forwards;
+// // }
+
+// // .cd__digit--roll-in [data-pos="next"] {
+// //   animation: rollIn 0.5s ease-in-out forwards;
+// // }
+
+// // @keyframes rollIn {
+// //   from { transform: translateY(-110%); }
+// //   to   { transform: translateY(0); }
+// // }
+
+// // @keyframes nextFadeIn {
+// //   from { opacity: 0; }
+// //   to   { opacity: 1; }
+// // }
+
+
+// /* =========================
+//    VIEWPORT + STAGE
+//    ========================= */
+
+// .viewport {
+//   width: 100vw;
+//   height: 100svh;
+//   overflow: hidden;
+
+//   padding:
+//     env(safe-area-inset-top)
+//     env(safe-area-inset-right)
+//     env(safe-area-inset-bottom)
+//     env(safe-area-inset-left);
+
+//   display: grid;
+//   place-items: center;
+
+//   background: url("/assets/images/cover.png") center / cover no-repeat;
+// }
+
+// .stage {
+//   position: relative;
+//   width: calc(var(--design-w) * 1px);
+//   height: calc(var(--design-h) * 1px);
+
+//   color: var(--text-color);
+//   font-family: var(--font-family-primary);
+
+//   --sx: calc(
+//     (100vw - env(safe-area-inset-left) - env(safe-area-inset-right)) /
+//       (var(--design-w) * 1px)
+//   );
+//   --sy: calc(
+//     (100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) /
+//       (var(--design-h) * 1px)
+//   );
+
+//   --s-fit: min(var(--sx), var(--sy));
+//   --s-cover: max(var(--sx), var(--sy));
+
+//   transform: scale(
+//     calc(var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover))
+//   );
+//   transform-origin: center center;
+
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
+
+// /* =========================
+//    ABSOLUTE ELEMENT SYSTEM
+//    ========================= */
+
+// .el {
+//   position: absolute;
+//   left: calc(var(--x, 0) * 1px);
+//   top: calc(var(--y, 0) * 1px);
+//   z-index: var(--z, 5);
+//   transform: translate(var(--tx, 0), var(--ty, 0));
+// }
+
+// /* =========================
+//    POSITIONS (aligned to your target)
+//    ========================= */
+
+// .calendar-link   { --x: 18;  --y: 24;  --z: 10; }
+// .mor-batel       { --x: 338; --y: 18;  --z: 10; }
+
+// // .center-stack    { --x: 201; --y: 190; --tx: -50%; --z: 8; }
+// .center-stack { --y: 190; --z: 8; }
+
+// /* חשוב: להרים קצת את הבוטום */
+// .bottom-bar      { --x: 22;  --y: 560; --z: 9; }
+
+// /* ולהוריד קצת את האיור כדי שלא ידרוס */
+// .image-container { --x: 0;   --y: 500; --z: 2; }
+// /* =========================
+//    TOP: Calendar
+//    ========================= */
+
+// .calendar-link {
+//   cursor: pointer;
+//   display: inline-block;
+// }
+
+// .calendar-icon {
+//   height: 120px;
+//   display: block;
+// }
+
+// /* =========================
+//    TOP RIGHT: MB
+//    ========================= */
+
+// .mor-batel {
+//   display: flex;
+//   align-items: flex-start;
+//   line-height: 1;
+
+//   font-size: 46px;
+//   letter-spacing: 7px;
+// }
+
+// .letter-container {
+//   width: 50px;
+//   text-align: center;
+// }
+
+// .mor-line {
+//   display: none;
+// }
+
+// /* =========================
+//    CENTER (fix: keep title in ONE line)
+//    ========================= */
+
+// .center-stack {
+//   text-align: center;
+//   pointer-events: none;
+//     width: 100%;
+//   left: 0; /* מבטל תלות ב-x לרוחב */
+//   right: 0;
+//   text-align: center;
+// }
+
+// .save-our-date {
+//   margin: 0;
+//   font-size: 64px;          /* ↓ כדי שלא יישבר */
+//   letter-spacing: 12px;     /* ↓ קצת פחות */
+//   font-weight: 400;
+//   white-space: nowrap;      /* ✅ תמיד שורה אחת */
+// }
+
+// h1 {
+//   margin: 16px 0 0;
+//   font-size: 32px;
+//   letter-spacing: 14px;
+//   font-weight: 700;
+//   white-space: nowrap;
+// }
+
+// /* =========================
+//    COUNTDOWN
+//    ========================= */
+
+// .countdown {
+//   margin-top: 52px;
+//   text-transform: uppercase;
+//   font-variant-numeric: tabular-nums;
+//   pointer-events: auto;
+// }
+
+// .cd {
+//   display: flex;
+//   justify-content: center;
+//   flex-wrap: nowrap;
+//   gap: 18px;
+// }
+
+// .cd__unit-group {
+//   display: flex;
+//   gap: 18px;
+// }
+
+// .cd__unit {
+//   font-size: 26px;
+//   line-height: 1;
+//   font-family: var(--font-family-primary);
+//   color: var(--text-color);
+// }
+
+// .cd__digits {
+//   position: relative;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 1.05em;
+//   overflow: hidden;
+//   font-weight: 700;
+// }
+
+// .cd__digit {
+//   position: relative;
+//   width: 1ch;
+//   height: 1.05em;
+//   display: inline-block;
+//   vertical-align: top;
+// }
+
+// .cd__digit [data-pos] {
+//   position: absolute;
+//   inset: 0;
+//   display: grid;
+//   place-items: center;
+//   line-height: 1;
+//   transform: translateZ(0);
+// }
+
+// .cd__unit-label {
+//   font-family: var(--font-family-secondary);
+//   font-size: 10px;
+//   letter-spacing: 1.6px;
+//   margin-top: 10px;
+//   color: rgba(0, 0, 0, 0.85);
+// }
+
+// /* =========================
+//    BOTTOM (fix: date fully visible)
+//    ========================= */
+
+// .bottom-bar {
+//   width: calc((var(--design-w) - 44) * 1px);
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: flex-end;
+//   gap: 16px;
+// }
+
+// .date {
+//   font-size: 86px;       /* ↓ כדי ש-28/08/26 יכנס תמיד */
+//   letter-spacing: 12px;
+//   line-height: 0.92;
+//   font-weight: 400;
+// }
+
+// .location {
+//   font-size: 20px;
+//   letter-spacing: 12px;
+//   text-align: right;
+//   line-height: 1.4;
+// }
+
+// /* =========================
+//    BOTTOM IMAGE (behind)
+//    ========================= */
+
+// .image-container {
+//   pointer-events: none;
+//   width: 100%;
+// }
+
+// .image-container img {
+//   width: calc(var(--bottom-img-width) * 100%);
+//   max-height: var(--bottom-img-maxh);
+//   height: auto;
+//   opacity: var(--bottom-img-opacity);
+
+//   position: relative;
+//   left: calc(var(--bottom-img-x) * 1px);
+//   top: calc(var(--bottom-img-y) * 1px);
+
+//   object-fit: contain;
+//   object-position: center bottom;
+//   display: block;
+// }
+
+// /* =========================
+//    Countdown animations
+//    ========================= */
+
+// .cd__digit [data-pos="next"] {
+//   z-index: 2;
+//   backface-visibility: hidden;
+//   -webkit-backface-visibility: hidden;
+// }
+
+// .cd__digit [data-pos="prev"] {
+//   display: none !important;
+// }
+
+// .cd__next-digit-fade {
+//   animation: nextFadeIn 0.5s ease-in-out forwards;
+// }
+
+// .cd__digit--roll-in [data-pos="next"] {
+//   animation: rollIn 0.5s ease-in-out forwards;
+// }
+
+// @keyframes rollIn {
+//   from { transform: translateY(-110%); }
+//   to   { transform: translateY(0); }
+// }
+
+// @keyframes nextFadeIn {
+//   from { opacity: 0; }
+//   to   { opacity: 1; }
+// }
+
+
+/* =========================
+   VIEWPORT + STAGE (Stable everywhere)
+   ========================= */
+
+/* =========================
+   VIEWPORT + STAGE
+   ========================= */
+
+/* =========================================================
+   Stable stage + free move (NO scroll, NO white sides)
+   ========================================================= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ========================= 
+   Developer Toggle Button 
+   ========================= */
+.dev-toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 3px solid white;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ========================= 
+   Grid Overlay 
+   ========================= */
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: calc(var(--show-grid, 0) * 0.3);
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 49px, #00ff00 49px, #00ff00 50px),
+    repeating-linear-gradient(90deg, transparent, transparent 49px, #00ff00 49px, #00ff00 50px);
+  transition: opacity 0.3s;
+}
+
+/* ========================= 
+   Safe Zone Overlay 
+   ========================= */
+.safe-zone-overlay {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  right: 30px;
+  bottom: 30px;
+  pointer-events: none;
+  z-index: 9997;
+  border: 3px dashed #ffeb3b;
+  opacity: calc(var(--show-safe-zone, 1) * 0.6);
+  transition: opacity 0.3s;
+  
+  &::before {
+    content: '⚠️ SAFE ZONE';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffeb3b;
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    font-family: sans-serif;
+    white-space: nowrap;
+  }
+}
+
+/* ========================= 
+   VIEWPORT + STAGE 
+   ========================= */
+.viewport {
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+  padding: 
+    env(safe-area-inset-top) 
+    env(safe-area-inset-right) 
+    env(safe-area-inset-bottom) 
+    env(safe-area-inset-left);
+  display: grid;
+  place-items: center;
+  background: url("/assets/images/cover.png") center / cover no-repeat;
+}
+
+.stage {
+  position: relative;
+  width: calc(var(--design-w) * 1px);
+  height: calc(var(--design-h) * 1px);
+  color: var(--text-color);
+  font-family: var(--font-family-primary);
+  
+  --sx: calc(
+    (100vw - env(safe-area-inset-left) - env(safe-area-inset-right)) / 
+    (var(--design-w) * 1px)
+  );
+  --sy: calc(
+    (100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) / 
+    (var(--design-h) * 1px)
+  );
+  --s-fit: min(var(--sx), var(--sy));
+  --s-cover: max(var(--sx), var(--sy));
+  
+  transform: scale(
+    calc(var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover))
+  );
+  transform-origin: center center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================= 
+   ABSOLUTE ELEMENT SYSTEM 
+   ========================= */
+.el {
+  position: absolute;
+  left: calc(var(--x, 0) * 1px);
+  top: calc(var(--y, 0) * 1px);
+  z-index: var(--z, 5);
+  transform: translate(var(--tx, 0), var(--ty, 0));
+}
+
+/* ========================= 
+   ELEMENT POSITIONS 
+   ========================= */
+
+/* 1. Calendar */
+.calendar-link { 
+  --x: var(--calendar-x, 18); 
+  --y: var(--calendar-y, 24); 
+  --z: 10; 
+}
+
+/* 2. MB Letters */
+.mor-batel { 
+  --x: var(--mb-x, 338); 
+  --y: var(--mb-y, 18); 
+  --z: 10; 
+}
+
+/* 3. Save our date */
+.save-date-text {
+  --x: var(--save-date-x, 201);
+  --y: var(--save-date-y, 190);
+  --tx: -50%;
+  --z: 8;
+}
+
+/* 4. Names */
+.names-text {
+  --x: var(--names-x, 201);
+  --y: var(--names-y, 270);
+  --tx: -50%;
+  --z: 8;
+}
+
+/* 5. Countdown */
+.countdown-container {
+  --x: var(--countdown-x, 201);
+  --y: var(--countdown-y, 340);
+  --tx: -50%;
+  --z: 8;
+}
+
+/* 6. Date Numbers */
+.date-numbers {
+  --x: var(--date-numbers-x, 22);
+  --y: var(--date-numbers-y, 560);
+  --z: 9;
+}
+
+/* 7. Location */
+.location-text {
+  --x: var(--location-x, 280);
+  --y: var(--location-y, 600);
+  --z: 9;
+}
+
+/* 8. Image */
+.image-container { 
+  --x: var(--image-x, 0); 
+  --y: var(--image-y, 500); 
+  --z: 2; 
+}
+
+/* ========================= 
+   1. CALENDAR ICON
+   ========================= */
+.calendar-link {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.calendar-icon {
+  height: calc(var(--calendar-size, 120) * 1px);
+  display: block;
+}
+
+/* ========================= 
+   2. MB LETTERS
+   ========================= */
+.mor-batel {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+  font-size: calc(var(--mb-size, 46) * 1px);
+  letter-spacing: 7px;
+}
+
+.letter-container {
+  width: 50px;
+  text-align: center;
+}
+
+.mor-line {
+  display: none;
+}
+
+/* ========================= 
+   3. SAVE OUR DATE TEXT
+   ========================= */
+.save-date-text {
+  text-align: center;
+  pointer-events: none;
+}
+
+.save-our-date {
+  margin: 0;
+  font-size: calc(var(--save-date-size, 64) * 1px);
+  letter-spacing: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* ========================= 
+   4. NAMES TEXT
+   ========================= */
+.names-text {
+  text-align: center;
+  pointer-events: none;
+}
+
+h1 {
+  margin: 0;
+  font-size: calc(var(--names-size, 32) * 1px);
+  letter-spacing: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ========================= 
+   5. COUNTDOWN
+   ========================= */
+/* ========================= 
+   5. COUNTDOWN
+   ========================= */
+.countdown-container {
+  text-align: center;
+  pointer-events: auto;
+}
+
+.countdown {
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.cd {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.cd__unit-group {
+  display: flex;
+  gap: 6px;
+}
+
+.cd__unit {
+  font-size: calc(var(--countdown-size, 26) * 1px);
+  line-height: 1;
+  font-family: var(--font-family-primary);
+  color: var(--text-color);
+}
+
+.cd__digits {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.05em;
+  overflow: hidden;
+  font-weight: 700;
+  gap: 0px;
+  letter-spacing: -1px;
+}
 
 .cd__digit {
   position: relative;
+  width: 0.9ch;
+  height: 1.05em;
+  display: inline-block;
+  vertical-align: top;
 }
 
+.cd__digit [data-pos] {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  transform: translateZ(0);
+}
+
+.cd__unit-label {
+  font-family: var(--font-family-secondary);
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  margin-top: 6px;
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+/* ========================= 
+   6. DATE NUMBERS (28 08 26)
+   ========================= */
+.date-numbers {
+  .date-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  p {
+    margin: 0;
+    font-size: calc(var(--date-numbers-size, 86) * 1px);
+    letter-spacing: 12px;
+    line-height: 0.92;
+    font-weight: 400;
+  }
+}
+
+/* ========================= 
+   7. LOCATION TEXT
+   ========================= */
+.location-text {
+  .location {
+    margin: 0;
+    font-size: calc(var(--location-size, 20) * 1px);
+    letter-spacing: 12px;
+    text-align: right;
+    line-height: 1.4;
+  }
+}
+
+/* ========================= 
+   8. COUPLE IMAGE
+   ========================= */
+.image-container {
+  pointer-events: none;
+  width: 100%;
+}
+
+.image-container img {
+  width: calc(var(--image-width, 1.16) * 100%);
+  max-height: calc(var(--image-maxh, 390) * 1px);
+  height: auto;
+  opacity: var(--bottom-img-opacity, 0.85);
+  position: relative;
+  left: calc(var(--bottom-img-x) * 1px);
+  top: calc(var(--bottom-img-y) * 1px);
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+}
+
+/* ========================= 
+   Countdown animations 
+   ========================= */
 .cd__digit [data-pos="next"] {
   z-index: 2;
   backface-visibility: hidden;
@@ -11,69 +1633,23 @@
 }
 
 .cd__digit [data-pos="prev"] {
-  z-index: 1;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  display: none !important;
 }
 
-/* prev: מתחיל מיד להיעלם (החצי הראשון מהר) */
-.cd__prev-digit-fade {
-  opacity: 1;
-  animation: prevFadeOut 0.5s linear forwards;
-}
-
-/* next: נכנס ומתבהר */
 .cd__next-digit-fade {
   animation: nextFadeIn 0.5s ease-in-out forwards;
 }
 
-/* roll רק על next */
 .cd__digit--roll-in [data-pos="next"] {
   animation: rollIn 0.5s ease-in-out forwards;
 }
 
-/* ==== keyframes ==== */
-
-/* מפיל את ה-next מלמעלה */
 @keyframes rollIn {
   from { transform: translateY(-110%); }
   to { transform: translateY(0); }
 }
 
-/* next מתבהר */
 @keyframes nextFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
-/* prev: נעלם ממש מהר בתחילת האנימציה כדי שלא “יבזיק” */
-@keyframes prevFadeOut {
-  0%   { opacity: 1; }
-  15%  { opacity: 0; }  /* כאן הורגים את הגליץ */
-  100% { opacity: 0; }
-}
-
-/* בונוס: חדות + פחות פלאשים */
-.cd__digit [data-pos] {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.calendar-fallback{
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 9999;
-  font-size: 12px;
-  opacity: 0.6;
-  display: flex;
-  gap: 10px;
-}
-
-.calendar-fallback a{ color: #000000; }
-
-/* ===== Kill "prev" ghosting completely ===== */
-.cd__digit [data-pos="prev"] {
-  display: none !important;
-}
-

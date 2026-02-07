@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IntroOverlayComponent } from './intro-overlay/intro-overlay.component';
-
-// import { RouterOutlet } from '@angular/router';
+import { PositionEditorComponent } from './position-editor/position-editor.component';
 
 import gsap from 'gsap';
 import moment from 'moment-timezone';
@@ -10,75 +9,78 @@ import moment from 'moment-timezone';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule,IntroOverlayComponent],
+  imports: [CommonModule, IntroOverlayComponent, PositionEditorComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
-  // יעד: 28.08.2026 12:00 (ישראל)
   private readonly TARGET_ISO = '2026-08-28T12:00:00';
   private readonly TZ = 'Asia/Jerusalem';
 
-  // מחרוזות נוכחיות (2 ספרות לכל יחידה)
   moStr = '00';
   dStr = '00';
   hStr = '00';
   mStr = '00';
   sStr = '00';
   showIntro = true;
+  showPositionEditor = false;
+  showDevButton = false;
 
-  // === Calendar links ===
+  icsUrl = '/save-our-date/calendar.ics';
 
-// חשוב: ב-GitHub Pages הנתיב צריך לכלול את שם הריפו
-icsUrl = '/save-our-date/calendar.ics';
+  googleCalendarUrl =
+    'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    '&text=Mor%20%26%20Batel%20wedding%F0%9F%92%8D' +
+    '&dates=20260828T090000Z/20260828T140000Z' +
+    '&details=Save%20the%20date' +
+    '&location=%D7%90%D7%9C%D7%94%20-%20%D7%92%D7%9F%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%D7%99%D7%9D%20%D7%91%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94%2C%20%D7%94%D7%90%D7%9C%D7%95%D7%A4%D7%99%D7%9D%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94';
 
-// Google Calendar (פותח דף הוספה)
-googleCalendarUrl =
-  'https://calendar.google.com/calendar/render?action=TEMPLATE' +
-  '&text=Mor%20%26%20Batel%20wedding%F0%9F%92%8D' +
-  '&dates=20260828T090000Z/20260828T140000Z' +
-  '&details=Save%20the%20date' +
-  '&location=%D7%90%D7%9C%D7%94%20-%20%D7%92%D7%9F%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%D7%99%D7%9D%20%D7%91%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94%2C%20%D7%94%D7%90%D7%9C%D7%95%D7%A4%D7%99%D7%9D%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94';
+  outlookCalendarUrl =
+    'https://outlook.live.com/calendar/0/deeplink/compose' +
+    '?subject=Mor%20%26%20Batel%20wedding%F0%9F%92%8D' +
+    '&body=Save%20the%20date' +
+    '&location=%D7%90%D7%9C%D7%94%20-%20%D7%92%D7%9F%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%D7%99%D7%9D%20%D7%91%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94%2C%20%D7%94%D7%90%D7%9C%D7%95%D7%A4%D7%99%D7%9D%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94' +
+    '&startdt=2026-08-28T12:00:00' +
+    '&enddt=2026-08-28T17:00:00';
 
-// Outlook.com
-outlookCalendarUrl =
-  'https://outlook.live.com/calendar/0/deeplink/compose' +
-  '?subject=Mor%20%26%20Batel%20wedding%F0%9F%92%8D' +
-  '&body=Save%20the%20date' +
-  '&location=%D7%90%D7%9C%D7%94%20-%20%D7%92%D7%9F%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%D7%99%D7%9D%20%D7%91%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94%2C%20%D7%94%D7%90%D7%9C%D7%95%D7%A4%D7%99%D7%9D%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94' +
-  '&startdt=2026-08-28T12:00:00' +
-  '&enddt=2026-08-28T17:00:00';
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.ctrlKey && event.shiftKey && event.key === 'E') {
+      event.preventDefault();
+      this.showDevButton = !this.showDevButton;
+      if (!this.showDevButton) {
+        this.showPositionEditor = false;
+      }
+    }
+  }
 
-addToCalendar(): void {
-  const ua = navigator.userAgent || '';
+  addToCalendar(): void {
+    const ua = navigator.userAgent || '';
+    const isAppleDevice = /iPhone|iPad|iPod|Macintosh/.test(ua);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+    const urlToOpen = (isAppleDevice && isSafari) ? this.icsUrl : this.googleCalendarUrl;
+    window.open(urlToOpen, '_blank', 'noopener');
+  }
 
-  const isAppleDevice = /iPhone|iPad|iPod|Macintosh/.test(ua);
-  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+  onIntroDone(): void {
+    this.showIntro = false;
+  }
 
-  // Apple + Safari -> ICS, אחרת -> Google
-  const urlToOpen = (isAppleDevice && isSafari) ? this.icsUrl : this.googleCalendarUrl;
+  togglePositionEditor(): void {
+    this.showPositionEditor = !this.showPositionEditor;
+  }
 
-  window.open(urlToOpen, '_blank', 'noopener');
-}
-
-onIntroDone(): void {
-  this.showIntro = false;
-}
-
-  // מחרוזות קודמות (2 ספרות) — בשביל שכבת prev
   prevMoStr = '00';
   prevDStr = '00';
   prevHStr = '00';
   prevMStr = '00';
   prevSStr = '00';
 
-  // איזה עמודות (0..9) עושות אנימציה כרגע
   animCols: boolean[] = Array(10).fill(false);
 
   private timerId: number | null = null;
 
   ngOnInit(): void {
-    // אתחול ללא אנימציה
     this.tick(false);
     this.timerId = window.setInterval(() => this.tick(true), 1000);
   }
@@ -136,7 +138,6 @@ onIntroDone(): void {
       return;
     }
 
-    // חודשים קלנדריים
     let months = target.diff(now, 'months');
     let anchor = now.clone().add(months, 'months');
 

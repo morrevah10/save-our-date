@@ -1,0 +1,110 @@
+<div class="editor-overlay">
+  <div class="editor-panel">
+    <!-- Header -->
+    <div class="editor-header">
+      <h2>🎨 Position Editor</h2>
+      <button class="close-btn" (click)="closeEditor()" title="Close">✕</button>
+    </div>
+
+    <!-- Warning -->
+    <div class="editor-warning">
+      ⚠️ Changes are <strong>temporary</strong>!<br>
+      Click "💾 Copy CSS" to save permanently.
+    </div>
+
+    <!-- Controls -->
+    <div class="editor-controls">
+      <button 
+        class="control-btn small" 
+        [class.active]="showGrid"
+        (click)="toggleGrid()">
+        {{ showGrid ? '✅' : '☐' }} Grid
+      </button>
+      <button 
+        class="control-btn small" 
+        [class.active]="showSafeZone"
+        (click)="toggleSafeZone()">
+        {{ showSafeZone ? '✅' : '☐' }} Safe
+      </button>
+      <button 
+        class="control-btn small reset-btn" 
+        (click)="resetToDefaults()">
+        🔄 Reset
+      </button>
+    </div>
+
+    <!-- Element Position Controls -->
+    <div class="editor-elements">
+      <div class="element-control" *ngFor="let el of elements">
+        <div class="element-name">{{ el.displayName }}</div>
+        
+        <div class="element-sliders">
+          <!-- X Position -->
+          <div class="slider-group" *ngIf="el.hasX">
+            <label>X:</label>
+            <input 
+              type="range" 
+              min="0" 
+              max="402" 
+              step="1"
+              [(ngModel)]="el.x"
+              (input)="updatePosition(el)"
+              class="slider">
+            <input 
+              type="number" 
+              [(ngModel)]="el.x"
+              (input)="updatePosition(el)"
+              class="number-input">
+          </div>
+
+          <!-- Y Position -->
+          <div class="slider-group" *ngIf="el.hasY">
+            <label>Y:</label>
+            <input 
+              type="range" 
+              min="0" 
+              max="874" 
+              step="1"
+              [(ngModel)]="el.y"
+              (input)="updatePosition(el)"
+              class="slider">
+            <input 
+              type="number" 
+              [(ngModel)]="el.y"
+              (input)="updatePosition(el)"
+              class="number-input">
+          </div>
+
+          <!-- Size -->
+          <div class="slider-group" *ngIf="el.hasSize">
+            <label>📏 Size:</label>
+            <input 
+              type="range" 
+              [min]="el.minSize" 
+              [max]="el.maxSize" 
+              step="0.1"
+              [(ngModel)]="el.size"
+              (input)="updatePosition(el)"
+              class="slider size-slider">
+            <input 
+              type="number" 
+              [(ngModel)]="el.size"
+              (input)="updatePosition(el)"
+              step="0.1"
+              class="number-input">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export Button -->
+    <div class="editor-footer">
+      <button class="export-btn" (click)="exportCSS()">
+        💾 Copy CSS to Save
+      </button>
+      <p class="footer-hint">
+        Adjust positions & sizes, then click above to save permanently
+      </p>
+    </div>
+  </div>
+</div>
