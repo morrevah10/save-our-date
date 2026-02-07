@@ -28,7 +28,6 @@
 // // // //   to { opacity: 1; }
 // // // // }
 
-
 // // // /* =========================
 // // //    VIEWPORT + STAGE (Stable everywhere)
 // // //    ========================= */
@@ -302,10 +301,6 @@
 // // //   to   { opacity: 1; }
 // // // }
 
-
-
-
-
 // // /* =========================================================
 // //    Save-Our-Date / iPhone 17 Stage Layout (Stable + Elegant)
 // //    ========================================================= */
@@ -317,7 +312,6 @@
 // // // // .viewport { background: #f2f2f2 !important; }
 // // // // .stage { outline: 3px solid red !important; }
 // // // // .el { outline: 1px dashed blue !important; }
-
 
 // // // .viewport {
 // // //   width: 100vw;
@@ -598,8 +592,6 @@
 // // //   from { opacity: 0; }
 // // //   to   { opacity: 1; }
 // // // }
-
-
 
 // // /* =========================
 // //    VIEWPORT + STAGE (Stable everywhere)
@@ -898,7 +890,6 @@
 // //   to   { opacity: 1; }
 // // }
 
-
 // /* =========================
 //    VIEWPORT + STAGE
 //    ========================= */
@@ -1188,7 +1179,6 @@
 //   to   { opacity: 1; }
 // }
 
-
 /* =========================
    VIEWPORT + STAGE (Stable everywhere)
    ========================= */
@@ -1200,37 +1190,6 @@
 /* =========================================================
    Stable stage + free move (NO scroll, NO white sides)
    ========================================================= */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* ========================= 
    Developer Toggle Button 
@@ -1249,7 +1208,9 @@
   cursor: pointer;
   z-index: 9999;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1276,9 +1237,21 @@
   pointer-events: none;
   z-index: 9998;
   opacity: calc(var(--show-grid, 0) * 0.3);
-  background-image: 
-    repeating-linear-gradient(0deg, transparent, transparent 49px, #00ff00 49px, #00ff00 50px),
-    repeating-linear-gradient(90deg, transparent, transparent 49px, #00ff00 49px, #00ff00 50px);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 49px,
+      #00ff00 49px,
+      #00ff00 50px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 49px,
+      #00ff00 49px,
+      #00ff00 50px
+    );
   transition: opacity 0.3s;
 }
 
@@ -1296,9 +1269,9 @@
   border: 3px dashed #ffeb3b;
   opacity: calc(var(--show-safe-zone, 1) * 0.6);
   transition: opacity 0.3s;
-  
+
   &::before {
-    content: '⚠️ SAFE ZONE';
+    content: "⚠️ SAFE ZONE";
     position: absolute;
     top: -25px;
     left: 50%;
@@ -1321,14 +1294,11 @@
   width: 100vw;
   height: 100svh;
   overflow: hidden;
-  padding: 
-    env(safe-area-inset-top) 
-    env(safe-area-inset-right) 
-    env(safe-area-inset-bottom) 
-    env(safe-area-inset-left);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
   display: grid;
   place-items: center;
-  background: url("/assets/images/cover.png") center / cover no-repeat;
+  background: url("assets/images/cover.png") center / cover no-repeat;
 }
 
 .stage {
@@ -1337,20 +1307,22 @@
   height: calc(var(--design-h) * 1px);
   color: var(--text-color);
   font-family: var(--font-family-primary);
-  
+
   --sx: calc(
-    (100vw - env(safe-area-inset-left) - env(safe-area-inset-right)) / 
-    (var(--design-w) * 1px)
+    (100vw - env(safe-area-inset-left) - env(safe-area-inset-right)) /
+      (var(--design-w) * 1px)
   );
   --sy: calc(
-    (100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) / 
-    (var(--design-h) * 1px)
+    (100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) /
+      (var(--design-h) * 1px)
   );
   --s-fit: min(var(--sx), var(--sy));
   --s-cover: max(var(--sx), var(--sy));
-  
+
   transform: scale(
-    calc(var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover))
+    calc(
+      var(--fit-mode) * var(--s-fit) + (1 - var(--fit-mode)) * var(--s-cover)
+    )
   );
   transform-origin: center center;
   -webkit-font-smoothing: antialiased;
@@ -1373,17 +1345,17 @@
    ========================= */
 
 /* 1. Calendar */
-.calendar-link { 
-  --x: var(--calendar-x, 18); 
-  --y: var(--calendar-y, 24); 
-  --z: 10; 
+.calendar-link {
+  --x: var(--calendar-x, 18);
+  --y: var(--calendar-y, 24);
+  --z: 10;
 }
 
 /* 2. MB Letters */
-.mor-batel { 
-  --x: var(--mb-x, 338); 
-  --y: var(--mb-y, 18); 
-  --z: 10; 
+.mor-batel {
+  --x: var(--mb-x, 338);
+  --y: var(--mb-y, 18);
+  --z: 10;
 }
 
 /* 3. Save our date */
@@ -1425,10 +1397,10 @@
 }
 
 /* 8. Image */
-.image-container { 
-  --x: var(--image-x, 0); 
-  --y: var(--image-y, 500); 
-  --z: 2; 
+.image-container {
+  --x: var(--image-x, 0);
+  --y: var(--image-y, 500);
+  --z: 2;
 }
 
 /* ========================= 
@@ -1645,11 +1617,19 @@ h1 {
 }
 
 @keyframes rollIn {
-  from { transform: translateY(-110%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(-110%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes nextFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
