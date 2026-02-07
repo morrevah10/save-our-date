@@ -1291,10 +1291,16 @@
    VIEWPORT + STAGE 
    ========================= */
 .viewport {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
+  width: 100dvw;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   padding: 0;
+  margin: 0;
   display: grid;
   place-items: center;
 }
@@ -1306,8 +1312,13 @@
   color: var(--text-color);
   font-family: var(--font-family-primary);
   
-  --sx: calc(100vw / (var(--design-w) * 1px));
-  --sy: calc(100vh / (var(--design-h) * 1px));
+  --vw: 100vw;
+  --vh: 100vh;
+  --dvw: 100dvw;
+  --dvh: 100dvh;
+  
+  --sx: calc(var(--dvw, var(--vw)) / (var(--design-w) * 1px));
+  --sy: calc(var(--dvh, var(--vh)) / (var(--design-h) * 1px));
   --s-fit: min(var(--sx), var(--sy));
   --s-cover: max(var(--sx), var(--sy));
   
