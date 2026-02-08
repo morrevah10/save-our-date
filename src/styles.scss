@@ -40,6 +40,11 @@
   --date-numbers-y: 760;
   --date-numbers-size: 40;
 
+  /* 📅 NEW Date (above Save the date) */
+  --new-date-x: 210;
+  --new-date-y: 180;
+  --new-date-size: 28;
+
   /* 📍 Location (Ella, Nes Tziona) */
   --location-x: 170;
   --location-y: 433;
@@ -63,7 +68,8 @@
   --show-safe-zone: 0;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;

@@ -1,66 +1,54 @@
 <app-intro-overlay *ngIf="showIntro" (done)="onIntroDone()"></app-intro-overlay>
 
 <!-- Position Editor Toggle Button -->
-<button
-  class="dev-toggle-btn"
-  (click)="togglePositionEditor()"
-  *ngIf="!showIntro && showDevButton"
->
+<button class="dev-toggle-btn" (click)="togglePositionEditor()" *ngIf="!showIntro && showDevButton">
   🎨
 </button>
 
 <!-- Position Editor Panel -->
-<app-position-editor
-  *ngIf="showPositionEditor && !showIntro"
-  (close)="togglePositionEditor()"
->
+<app-position-editor 
+  *ngIf="showPositionEditor && !showIntro" 
+  (close)="togglePositionEditor()">
 </app-position-editor>
 
-<div
-  class="viewport"
-  [style.background]="'url(assets/images/cover.png) center / cover no-repeat'"
->
+<div class="viewport" [style.background]="'url(assets/images/cover.png) center / cover no-repeat'">
+
   <div class="stage">
     <!-- Grid Overlay -->
     <div class="grid-overlay"></div>
-
+    
     <!-- Safe Zone Overlay -->
     <div class="safe-zone-overlay"></div>
 
     <!-- 1. CALENDAR ICON -->
-    <a
-      class="calendar-link el"
-      (click)="addToCalendar()"
-      role="button"
-      aria-label="Add to Calendar"
-    >
-      <img
-        class="calendar-icon"
-        src="assets/images/calendar2.png"
-        alt="Calendar Icon"
-        draggable="false"
-      />
+    <a class="calendar-link el" (click)="addToCalendar()" role="button" aria-label="Add to Calendar">
+      <img class="calendar-icon" src="assets/images/calendar2.png" alt="Calendar Icon" draggable="false" />
     </a>
 
-    <!-- 2. MB LETTERS -->
-    <div class="mor-batel el" aria-label="Mor and Batel initials">
-      <div class="letter-container">
-        <div class="mor">M</div>
-      </div>
-      <div class="mb-separator"></div>
+    <!-- 2. BM LETTERS (Changed order: Batel first) -->
+    <div class="mor-batel el" aria-label="Batel and Mor initials">
       <div class="letter-container">
         <div class="batel">B</div>
       </div>
+      <div class="mb-separator"></div>
+      <div class="letter-container">
+        <div class="mor">M</div>
+      </div>
     </div>
 
-    <!-- 3. SAVE OUR DATE TEXT (Separate) -->
+    <!-- NEW: Date above Save the date -->
+    <div class="new-date-text el">
+      <p class="new-date">28 . 08 . 26</p>
+    </div>
+
+    <!-- 3. SAVE THE DATE TEXT (Changed text) -->
     <div class="save-date-text el">
-      <p class="save-our-date">Save our date</p>
+      <p class="save-our-date">Save The Date</p>
     </div>
 
-    <!-- 4. NAMES (Separate) -->
+    <!-- 4. NAMES (Changed order: Batel first) -->
     <div class="names-text el">
-      <h1>Mor &amp; Batel</h1>
+      <h1>Batel &amp; Mor</h1>
     </div>
 
     <!-- 5. COUNTDOWN (Separate) -->
@@ -72,39 +60,13 @@
               <!-- Months -->
               <div class="cd__unit">
                 <div class="cd__digits">
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[0]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[0]"
-                    >
-                      {{ moStr[0] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[0]"
-                    >
-                      {{ prevMoStr[0] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[0]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[0]">{{ moStr[0] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[0]">{{ prevMoStr[0] }}</div>
                   </div>
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[1]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[1]"
-                    >
-                      {{ moStr[1] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[1]"
-                    >
-                      {{ prevMoStr[1] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[1]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[1]">{{ moStr[1] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[1]">{{ prevMoStr[1] }}</div>
                   </div>
                 </div>
                 <div class="cd__unit-label">Month(s)</div>
@@ -112,39 +74,13 @@
               <!-- Days -->
               <div class="cd__unit">
                 <div class="cd__digits">
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[2]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[2]"
-                    >
-                      {{ dStr[0] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[2]"
-                    >
-                      {{ prevDStr[0] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[2]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[2]">{{ dStr[0] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[2]">{{ prevDStr[0] }}</div>
                   </div>
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[3]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[3]"
-                    >
-                      {{ dStr[1] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[3]"
-                    >
-                      {{ prevDStr[1] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[3]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[3]">{{ dStr[1] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[3]">{{ prevDStr[1] }}</div>
                   </div>
                 </div>
                 <div class="cd__unit-label">Day(s)</div>
@@ -154,39 +90,13 @@
               <!-- Hours -->
               <div class="cd__unit">
                 <div class="cd__digits">
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[4]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[4]"
-                    >
-                      {{ hStr[0] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[4]"
-                    >
-                      {{ prevHStr[0] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[4]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[4]">{{ hStr[0] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[4]">{{ prevHStr[0] }}</div>
                   </div>
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[5]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[5]"
-                    >
-                      {{ hStr[1] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[5]"
-                    >
-                      {{ prevHStr[1] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[5]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[5]">{{ hStr[1] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[5]">{{ prevHStr[1] }}</div>
                   </div>
                 </div>
                 <div class="cd__unit-label">Hour(s)</div>
@@ -194,39 +104,13 @@
               <!-- Minutes -->
               <div class="cd__unit">
                 <div class="cd__digits">
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[6]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[6]"
-                    >
-                      {{ mStr[0] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[6]"
-                    >
-                      {{ prevMStr[0] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[6]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[6]">{{ mStr[0] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[6]">{{ prevMStr[0] }}</div>
                   </div>
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[7]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[7]"
-                    >
-                      {{ mStr[1] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[7]"
-                    >
-                      {{ prevMStr[1] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[7]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[7]">{{ mStr[1] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[7]">{{ prevMStr[1] }}</div>
                   </div>
                 </div>
                 <div class="cd__unit-label">Minute(s)</div>
@@ -234,39 +118,13 @@
               <!-- Seconds -->
               <div class="cd__unit">
                 <div class="cd__digits">
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[8]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[8]"
-                    >
-                      {{ sStr[0] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[8]"
-                    >
-                      {{ prevSStr[0] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[8]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[8]">{{ sStr[0] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[8]">{{ prevSStr[0] }}</div>
                   </div>
-                  <div
-                    class="cd__digit"
-                    [class.cd__digit--roll-in]="animCols[9]"
-                  >
-                    <div
-                      data-pos="next"
-                      [class.cd__next-digit-fade]="animCols[9]"
-                    >
-                      {{ sStr[1] }}
-                    </div>
-                    <div
-                      data-pos="prev"
-                      [class.cd__prev-digit-fade]="animCols[9]"
-                    >
-                      {{ prevSStr[1] }}
-                    </div>
+                  <div class="cd__digit" [class.cd__digit--roll-in]="animCols[9]">
+                    <div data-pos="next" [class.cd__next-digit-fade]="animCols[9]">{{ sStr[1] }}</div>
+                    <div data-pos="prev" [class.cd__prev-digit-fade]="animCols[9]">{{ prevSStr[1] }}</div>
                   </div>
                 </div>
                 <div class="cd__unit-label">Second(s)</div>
@@ -277,8 +135,8 @@
       </div>
     </div>
 
-    <!-- 6. DATE NUMBERS (28 08 26) - One Element -->
-    <div class="date-numbers el">
+    <!-- 6. OLD DATE NUMBERS (HIDDEN - Can enable later) -->
+    <div class="date-numbers el" style="display: none;">
       <div class="date-block">
         <p class="day">28</p>
         <p class="month">08</p>
@@ -286,10 +144,10 @@
       </div>
     </div>
 
-    <!-- 7. LOCATION TEXT (Ella, Nes Tziona) -->
+    <!-- 7. LOCATION TEXT (Added "at") -->
     <div class="location-text el">
       <p class="location">
-        Ella,<br />
+        at : Ella,<br />
         <span>Nes Tziona</span>
       </p>
     </div>

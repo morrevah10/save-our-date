@@ -1442,6 +1442,27 @@
   // margin: 0 8px;
   opacity: 0.8;
 }
+
+/* ========================= 
+   NEW DATE (above Save the date)
+   ========================= */
+.new-date-text {
+  --x: var(--new-date-x, 210);
+  --y: var(--new-date-y, 180);
+  --tx: -50%;
+  --z: 8;
+  text-align: center;
+  pointer-events: none;
+}
+
+.new-date {
+  margin: 0;
+  font-size: calc(var(--new-date-size, 28) * 1px);
+  letter-spacing: 8px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
 /* ========================= 
    3. SAVE OUR DATE TEXT
    ========================= */

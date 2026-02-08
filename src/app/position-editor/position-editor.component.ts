@@ -48,8 +48,8 @@ export class PositionEditorComponent implements OnInit {
       maxSize: 200
     },
     {
-      name: 'mb-letters',
-      displayName: '🔤 MB Letters',
+      name: 'bm-letters',
+      displayName: '🔤 BM Letters',
       xVar: '--mb-x',
       yVar: '--mb-y',
       sizeVar: '--mb-size',
@@ -63,13 +63,28 @@ export class PositionEditorComponent implements OnInit {
       maxSize: 80
     },
     {
+      name: 'new-date',
+      displayName: '📅 New Date (28.08.26)',
+      xVar: '--new-date-x',
+      yVar: '--new-date-y',
+      sizeVar: '--new-date-size',
+      x: 210,
+      y: 180,
+      size: 28,
+      hasX: true,
+      hasY: true,
+      hasSize: true,
+      minSize: 16,
+      maxSize: 50
+    },
+    {
       name: 'save-date',
-      displayName: '💝 Save our date',
+      displayName: '💝 Save the date',
       xVar: '--save-date-x',
       yVar: '--save-date-y',
       sizeVar: '--save-date-size',
       x: 201,
-      y: 190,
+      y: 235,
       size: 64,
       hasX: true,
       hasY: true,
@@ -79,7 +94,7 @@ export class PositionEditorComponent implements OnInit {
     },
     {
       name: 'names',
-      displayName: '👫 Names (Mor & Batel)',
+      displayName: '👫 Names (Batel & Mor)',
       xVar: '--names-x',
       yVar: '--names-y',
       sizeVar: '--names-size',
@@ -108,23 +123,8 @@ export class PositionEditorComponent implements OnInit {
       maxSize: 50
     },
     {
-      name: 'date-numbers',
-      displayName: '📆 Date Numbers (28 08 26)',
-      xVar: '--date-numbers-x',
-      yVar: '--date-numbers-y',
-      sizeVar: '--date-numbers-size',
-      x: 22,
-      y: 560,
-      size: 86,
-      hasX: true,
-      hasY: true,
-      hasSize: true,
-      minSize: 40,
-      maxSize: 150
-    },
-    {
       name: 'location',
-      displayName: '📍 Location (Ella, Nes Tziona)',
+      displayName: '📍 Location (at Ella, Nes Tziona)',
       xVar: '--location-x',
       yVar: '--location-y',
       sizeVar: '--location-size',
@@ -258,12 +258,12 @@ export class PositionEditorComponent implements OnInit {
     if (confirm('⚠️ Reset ALL positions and sizes to defaults?\n\nThis will undo your changes until you refresh the page.')) {
       this.elements = [
         { name: 'calendar', displayName: '📅 Calendar Icon', xVar: '--calendar-x', yVar: '--calendar-y', sizeVar: '--calendar-size', x: 18, y: 24, size: 120, hasX: true, hasY: true, hasSize: true, minSize: 50, maxSize: 200 },
-        { name: 'mb-letters', displayName: '🔤 MB Letters', xVar: '--mb-x', yVar: '--mb-y', sizeVar: '--mb-size', x: 338, y: 18, size: 46, hasX: true, hasY: true, hasSize: true, minSize: 20, maxSize: 80 },
-        { name: 'save-date', displayName: '💝 Save our date', xVar: '--save-date-x', yVar: '--save-date-y', sizeVar: '--save-date-size', x: 201, y: 190, size: 64, hasX: true, hasY: true, hasSize: true, minSize: 30, maxSize: 100 },
-        { name: 'names', displayName: '👫 Names (Mor & Batel)', xVar: '--names-x', yVar: '--names-y', sizeVar: '--names-size', x: 201, y: 270, size: 32, hasX: true, hasY: true, hasSize: true, minSize: 20, maxSize: 60 },
+        { name: 'bm-letters', displayName: '🔤 BM Letters', xVar: '--mb-x', yVar: '--mb-y', sizeVar: '--mb-size', x: 338, y: 18, size: 46, hasX: true, hasY: true, hasSize: true, minSize: 20, maxSize: 80 },
+        { name: 'new-date', displayName: '📅 New Date (28.08.26)', xVar: '--new-date-x', yVar: '--new-date-y', sizeVar: '--new-date-size', x: 210, y: 180, size: 28, hasX: true, hasY: true, hasSize: true, minSize: 16, maxSize: 50 },
+        { name: 'save-date', displayName: '💝 Save the date', xVar: '--save-date-x', yVar: '--save-date-y', sizeVar: '--save-date-size', x: 201, y: 235, size: 64, hasX: true, hasY: true, hasSize: true, minSize: 30, maxSize: 100 },
+        { name: 'names', displayName: '👫 Names (Batel & Mor)', xVar: '--names-x', yVar: '--names-y', sizeVar: '--names-size', x: 201, y: 270, size: 32, hasX: true, hasY: true, hasSize: true, minSize: 20, maxSize: 60 },
         { name: 'countdown', displayName: '⏱️ Countdown', xVar: '--countdown-x', yVar: '--countdown-y', sizeVar: '--countdown-size', x: 201, y: 340, size: 26, hasX: true, hasY: true, hasSize: true, minSize: 16, maxSize: 50 },
-        { name: 'date-numbers', displayName: '📆 Date Numbers (28 08 26)', xVar: '--date-numbers-x', yVar: '--date-numbers-y', sizeVar: '--date-numbers-size', x: 22, y: 560, size: 86, hasX: true, hasY: true, hasSize: true, minSize: 40, maxSize: 150 },
-        { name: 'location', displayName: '📍 Location (Ella, Nes Tziona)', xVar: '--location-x', yVar: '--location-y', sizeVar: '--location-size', x: 280, y: 600, size: 20, hasX: true, hasY: true, hasSize: true, minSize: 12, maxSize: 40 },
+        { name: 'location', displayName: '📍 Location (at Ella, Nes Tziona)', xVar: '--location-x', yVar: '--location-y', sizeVar: '--location-size', x: 280, y: 600, size: 20, hasX: true, hasY: true, hasSize: true, minSize: 12, maxSize: 40 },
         { name: 'image', displayName: '🖼️ Couple Image', xVar: '--image-x', yVar: '--image-y', sizeVar: '--image-width', x: 0, y: 500, size: 1.16, hasX: true, hasY: true, hasSize: true, minSize: 0.5, maxSize: 2 }
       ];
       
