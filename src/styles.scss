@@ -3,21 +3,21 @@
   --font-family-primary: serif;
   --font-family-secondary: sans-serif;
 
-/* Design Artboard Size */
---design-w: 402;
---design-h: 874;
+  /* Design Artboard Size */
+  --design-w: 402;
+  --design-h: 874;
 
-/* FIT MODE = shows entire design without cropping */
---fit-mode: 1;
+  /* FIT MODE = shows entire design without cropping */
+  --fit-mode: 1;
 
   /* 📅 Calendar Icon */
-  --calendar-x: 10;
-  --calendar-y: 10;
+  --calendar-x: -20;
+  --calendar-y: -30;
   --calendar-size: 115;
 
   /* 🔤 MB Letters */
-  --mb-x: 270;
-  --mb-y: 40;
+  --mb-x: 300;
+  --mb-y: 0;
   --mb-size: 40;
 
   /* 💝 Save our date */
@@ -36,18 +36,18 @@
   --countdown-size: 24;
 
   /* 📆 Date Numbers (28 08 26) */
-  --date-numbers-x: 40;
-  --date-numbers-y: 727;
+  --date-numbers-x: 10;
+  --date-numbers-y: 760;
   --date-numbers-size: 40;
 
   /* 📍 Location (Ella, Nes Tziona) */
   --location-x: 170;
-  --location-y: 435;
+  --location-y: 433;
   --location-size: 17;
 
   /* 🖼️ Couple Image */
   --image-x: 0;
-  --image-y: 460;
+  --image-y: 480;
   --image-width: 1.16;
 
   /* Bottom Image Settings (legacy) */
