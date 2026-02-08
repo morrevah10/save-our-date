@@ -1311,19 +1311,19 @@
   height: calc(var(--design-h) * 1px);
   color: var(--text-color);
   font-family: var(--font-family-primary);
-  
+
   --vw: 100vw;
   --vh: 100vh;
-  
+
   @supports (height: 100dvh) {
     --vh: 100dvh;
   }
-  
+
   --sx: calc(var(--vw) / (var(--design-w) * 1px));
   --sy: calc(var(--vh) / (var(--design-h) * 1px));
   --s-fit: min(var(--sx), var(--sy));
   --s-cover: max(var(--sx), var(--sy));
-  
+
   transform: scale(var(--s-fit));
   transform-origin: center center;
   -webkit-font-smoothing: antialiased;
@@ -1422,10 +1422,11 @@
    ========================= */
 .mor-batel {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   line-height: 1;
   font-size: calc(var(--mb-size, 46) * 1px);
   letter-spacing: 7px;
+  gap: 0;
 }
 
 .letter-container {
@@ -1433,10 +1434,14 @@
   text-align: center;
 }
 
-.mor-line {
-  display: none;
+/* Separator line between M and B */
+.mb-separator {
+  width: 2px;
+  height: calc(var(--mb-size, 46) * 0.8 * 1px);
+  background-color: #000000;
+  // margin: 0 8px;
+  opacity: 0.8;
 }
-
 /* ========================= 
    3. SAVE OUR DATE TEXT
    ========================= */

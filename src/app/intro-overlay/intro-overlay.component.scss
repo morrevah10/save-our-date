@@ -10,17 +10,22 @@
   inset: 0;
 }
 
-/* שני פאנלים full screen */
+/* Two full screen panels with background image */
 .panel {
   position: fixed;
   inset: 0;
-  background: var(--primary-color, #ad8989);
   display: grid;
   place-items: center;
   will-change: transform, clip-path, opacity;
+  
+  /* Same background as main page */
+  background-image: url('../../assets/images/cover.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-/* מצב התחלתי: חיתוך אנכי (חצי-חצי) */
+/* Initial state: vertical split (half-half) */
 .panel--left {
   clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
 }
@@ -29,7 +34,7 @@
   clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
 }
 
-/* MB רגיל ושלם במרכז (אותו דבר בשני הפאנלים) */
+/* MB letters centered */
 .mb {
   font-family: var(--font-family-primary, serif);
   color: #000000;
@@ -38,8 +43,11 @@
   line-height: 1;
   user-select: none;
 
-  /* מונע “פלאשים”/קפיצות במובייל */
+  /* Prevents flashes/jumps on mobile */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
+  
+  /* Optional: Add text shadow for better visibility */
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
 }
