@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IntroOverlayComponent } from './intro-overlay/intro-overlay.component';
 import { PositionEditorComponent } from './position-editor/position-editor.component';
@@ -16,6 +16,8 @@ import moment from 'moment-timezone';
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly TARGET_ISO = '2026-08-28T12:00:00';
   private readonly TZ = 'Asia/Jerusalem';
+  private readonly DESIGN_W = 402;
+  private readonly DESIGN_H = 874;
 
   moStr = '00';
   dStr = '00';
@@ -42,6 +44,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     '&location=%D7%90%D7%9C%D7%94%20-%20%D7%92%D7%9F%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%D7%99%D7%9D%20%D7%91%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94%2C%20%D7%94%D7%90%D7%9C%D7%95%D7%A4%D7%99%D7%9D%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94' +
     '&startdt=2026-08-28T12:00:00' +
     '&enddt=2026-08-28T17:00:00';
+
+  @ViewChild('stageRef') stageRef!: ElementRef<HTMLDivElement>;
+
+  private resizeObserver!: ResizeObserver;
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent): void {
@@ -86,11 +92,46 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.applyScale();
+    this.startResizeObserver();
     this.createEntranceAnimation();
   }
 
   ngOnDestroy(): void {
     if (this.timerId) window.clearInterval(this.timerId);
+    if (this.resizeObserver) this.resizeObserver.disconnect();
+  }
+
+private applyScale(): void {
+  const stage = this.stageRef?.nativeElement;
+  if (!stage) return;
+
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  const scaleX = vw / this.DESIGN_W;
+  const scaleY = vh / this.DESIGN_H;
+
+  // FIT = everyone sees the full design, no clipping
+  const scale = Math.min(scaleX, scaleY);
+
+  stage.style.transform = `scale(${scale})`;
+  stage.style.transformOrigin = 'center center';
+
+  // Do NOT scale the clip — only the stage
+  const clip = stage.parentElement;
+  if (clip) {
+    clip.style.transform = '';
+    clip.style.width = `${this.DESIGN_W}px`;
+    clip.style.height = `${this.DESIGN_H}px`;
+  }
+}
+
+  private startResizeObserver(): void {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.applyScale();
+    });
+    this.resizeObserver.observe(document.documentElement);
   }
 
   private createEntranceAnimation(): void {

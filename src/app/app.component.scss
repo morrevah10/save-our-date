@@ -1295,6 +1295,7 @@
   top: 0;
   left: 0;
   width: 100vw;
+  width: 100dvw;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -1305,26 +1306,21 @@
   justify-content: center;
 }
 
+
+.stage-clip {
+  width: calc(var(--design-w) * 1px);
+  height: calc(var(--design-h) * 1px);
+  overflow: hidden;
+  position: relative;
+  transform-origin: center center;
+}
+
 .stage {
   position: relative;
   width: calc(var(--design-w) * 1px);
   height: calc(var(--design-h) * 1px);
   color: var(--text-color);
   font-family: var(--font-family-primary);
-
-  --vw: 100vw;
-  --vh: 100vh;
-
-  @supports (height: 100dvh) {
-    --vh: 100dvh;
-  }
-
-  --sx: calc(var(--vw) / (var(--design-w) * 1px));
-  --sy: calc(var(--vh) / (var(--design-h) * 1px));
-  --s-fit: min(var(--sx), var(--sy));
-  --s-cover: max(var(--sx), var(--sy));
-
-  transform: scale(var(--s-fit));
   transform-origin: center center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
