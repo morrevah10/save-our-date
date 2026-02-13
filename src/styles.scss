@@ -15,17 +15,22 @@
   --calendar-y: -30;
   --calendar-size: 115;
 
-  /* 🔤 MB Letters */
-  --mb-x: 300;
+  /* 🔤 BM Letters */
+  --mb-x: 330;
   --mb-y: 0;
   --mb-size: 40;
 
-  /* 💝 Save our date */
+  /* 📅 New Date (28.08.26) */
+  --new-date-x: 210;
+  --new-date-y: 180;
+  --new-date-size: 28;
+
+  /* 💝 Save the date */
   --save-date-x: 210;
   --save-date-y: 235;
   --save-date-size: 33;
 
-  /* 👫 Names (Mor & Batel) */
+  /* 👫 Names (Batel & Mor) */
   --names-x: 210;
   --names-y: 295;
   --names-size: 25;
@@ -35,17 +40,7 @@
   --countdown-y: 355;
   --countdown-size: 24;
 
-  /* 📆 Date Numbers (28 08 26) */
-  --date-numbers-x: 10;
-  --date-numbers-y: 760;
-  --date-numbers-size: 40;
-
-  /* 📅 NEW Date (above Save the date) */
-  --new-date-x: 210;
-  --new-date-y: 180;
-  --new-date-size: 28;
-
-  /* 📍 Location (Ella, Nes Tziona) */
+  /* 📍 Location (at Ella, Nes Tziona) */
   --location-x: 170;
   --location-y: 433;
   --location-size: 17;
@@ -55,7 +50,7 @@
   --image-y: 480;
   --image-width: 1.16;
 
-  /* Bottom Image Settings (legacy) */
+  /* Bottom Image Settings */
   --bottom-img-width: 1.16;
   --bottom-img-maxh: 390px;
   --bottom-img-x: 0;
@@ -68,8 +63,7 @@
   --show-safe-zone: 0;
 }
 
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
   height: 100%;

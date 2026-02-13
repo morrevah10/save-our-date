@@ -1425,21 +1425,23 @@
   align-items: center;
   line-height: 1;
   font-size: calc(var(--mb-size, 46) * 1px);
-  letter-spacing: 7px;
+  letter-spacing: 0;
   gap: 0;
 }
 
 .letter-container {
-  width: 50px;
+  width: auto;
   text-align: center;
+  letter-spacing: 0;
 }
 
 /* Separator line between M and B */
+/* Separator line between B and M */
 .mb-separator {
-  width: 2px;
-  height: calc(var(--mb-size, 46) * 0.8 * 1px);
+  width: 1px;
+  height: calc(var(--mb-size, 46) * 0.7 * 1px);
   background-color: #000000;
-  // margin: 0 8px;
+  margin: 0 3px;
   opacity: 0.8;
 }
 
