@@ -106,25 +106,34 @@ private applyScale(): void {
   const stage = this.stageRef?.nativeElement;
   if (!stage) return;
 
+  const clip = stage.parentElement;
+  if (!clip) return;
+
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
   const scaleX = vw / this.DESIGN_W;
   const scaleY = vh / this.DESIGN_H;
 
-  // FIT = everyone sees the full design, no clipping
+  // Always fit the full design — never clip, never overflow
   const scale = Math.min(scaleX, scaleY);
 
-  stage.style.transform = `scale(${scale})`;
-  stage.style.transformOrigin = 'center center';
+  // Scale the clip wrapper to match the scaled stage size exactly
+  const scaledW = this.DESIGN_W * scale;
+  const scaledH = this.DESIGN_H * scale;
 
-  // Do NOT scale the clip — only the stage
-  const clip = stage.parentElement;
-  if (clip) {
-    clip.style.transform = '';
-    clip.style.width = `${this.DESIGN_W}px`;
-    clip.style.height = `${this.DESIGN_H}px`;
-  }
+  clip.style.width = `${scaledW}px`;
+  clip.style.height = `${scaledH}px`;
+  clip.style.overflow = 'hidden';
+  clip.style.transform = 'none';
+
+  stage.style.width = `${this.DESIGN_W}px`;
+  stage.style.height = `${this.DESIGN_H}px`;
+  stage.style.transform = `scale(${scale})`;
+  stage.style.transformOrigin = 'top left';
+  stage.style.position = 'absolute';
+  stage.style.top = '0';
+  stage.style.left = '0';
 }
 
   private startResizeObserver(): void {
