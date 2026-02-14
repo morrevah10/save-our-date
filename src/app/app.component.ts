@@ -60,13 +60,23 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  addToCalendar(): void {
-    const ua = navigator.userAgent || '';
-    const isAppleDevice = /iPhone|iPad|iPod|Macintosh/.test(ua);
-    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-    const urlToOpen = (isAppleDevice && isSafari) ? this.icsUrl : this.googleCalendarUrl;
-    window.open(urlToOpen, '_blank', 'noopener');
+addToCalendar(): void {
+  const ua = navigator.userAgent || '';
+  const isIOS = /iPhone|iPad|iPod/.test(ua);
+  const isMac = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0;
+  const isApple = isIOS || isMac;
+
+  if (isApple) {
+    const link = document.createElement('a');
+    link.href = this.icsUrl;
+    link.download = 'save-our-date.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    window.open(this.googleCalendarUrl, '_blank', 'noopener');
   }
+}
 
   onIntroDone(): void {
     this.showIntro = false;
