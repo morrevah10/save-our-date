@@ -1594,7 +1594,7 @@ h1 {
     margin: 0;
     font-size: calc(var(--location-size, 20) * 1px);
     letter-spacing: 12px;
-    text-align: right;
+    text-align: left;
     line-height: 1.4;
   }
 }
@@ -1708,7 +1708,7 @@ h1 {
     margin: 0;
     font-size: calc(var(--location-size, 17) * 1px);
     letter-spacing: 6px;
-    text-align: right;
+    // text-align: right;
     line-height: 1.5;
   }
 
@@ -1718,14 +1718,42 @@ h1 {
 }
 
 .waze-icon {
-  height: 18px;
+  height: 25px;
   width: auto;
   vertical-align: middle;
   margin-left: 4px;
   opacity: 0.75;
+ transform: rotate(-40deg);
 }
 
 .location-label {
   vertical-align: middle;
   letter-spacing: 6px;
+}
+/* ========================= 
+   LOCATION LABEL SMOOTH 5-STEP FADE
+   ========================= */
+.location-label {
+  animation: smoothFade 1s ease-in-out infinite;
+}
+
+@keyframes smoothFade {
+  0% {
+    opacity: 1;
+  }
+  // 20% {
+  //   opacity: 0.75;
+  // }
+  40% {
+    opacity: 0;
+  }
+  // 60% {
+  //   opacity: 0.25;
+  // }
+  80% {
+    opacity: 1;
+  }
+  // 100% {
+  //   opacity: 1;
+  // }
 }
