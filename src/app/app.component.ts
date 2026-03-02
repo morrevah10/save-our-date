@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit, AfterViewInit, HostListener, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  AfterViewInit,
+  HostListener,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IntroOverlayComponent } from './intro-overlay/intro-overlay.component';
 import { PositionEditorComponent } from './position-editor/position-editor.component';
@@ -28,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   showPositionEditor = false;
   showDevButton = false;
 
-  icsUrl = '/save-our-date/calendar.ics';
+  icsUrl = '/calendar.ics';
 
   googleCalendarUrl =
     'https://calendar.google.com/calendar/render?action=TEMPLATE' +
@@ -60,23 +68,23 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-addToCalendar(): void {
-  const ua = navigator.userAgent || '';
-  const isIOS = /iPhone|iPad|iPod/.test(ua);
-  const isMac = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0;
-  const isApple = isIOS || isMac;
+  addToCalendar(): void {
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPhone|iPad|iPod/.test(ua);
+    const isMac = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0;
+    const isApple = isIOS || isMac;
 
-  if (isApple) {
-    const link = document.createElement('a');
-    link.href = this.icsUrl;
-    link.download = 'save-our-date.ics';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } else {
-    window.open(this.googleCalendarUrl, '_blank', 'noopener');
+    if (isApple) {
+      const link = document.createElement('a');
+      link.href = this.icsUrl;
+      link.download = 'save-our-date.ics';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(this.googleCalendarUrl, '_blank', 'noopener');
+    }
   }
-}
 
   onIntroDone(): void {
     this.showIntro = false;
@@ -112,39 +120,39 @@ addToCalendar(): void {
     if (this.resizeObserver) this.resizeObserver.disconnect();
   }
 
-private applyScale(): void {
-  const stage = this.stageRef?.nativeElement;
-  if (!stage) return;
+  private applyScale(): void {
+    const stage = this.stageRef?.nativeElement;
+    if (!stage) return;
 
-  const clip = stage.parentElement;
-  if (!clip) return;
+    const clip = stage.parentElement;
+    if (!clip) return;
 
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-  const scaleX = vw / this.DESIGN_W;
-  const scaleY = vh / this.DESIGN_H;
+    const scaleX = vw / this.DESIGN_W;
+    const scaleY = vh / this.DESIGN_H;
 
-  // Always fit the full design — never clip, never overflow
-  const scale = Math.min(scaleX, scaleY);
+    // Always fit the full design — never clip, never overflow
+    const scale = Math.min(scaleX, scaleY);
 
-  // Scale the clip wrapper to match the scaled stage size exactly
-  const scaledW = this.DESIGN_W * scale;
-  const scaledH = this.DESIGN_H * scale;
+    // Scale the clip wrapper to match the scaled stage size exactly
+    const scaledW = this.DESIGN_W * scale;
+    const scaledH = this.DESIGN_H * scale;
 
-  clip.style.width = `${scaledW}px`;
-  clip.style.height = `${scaledH}px`;
-  clip.style.overflow = 'hidden';
-  clip.style.transform = 'none';
+    clip.style.width = `${scaledW}px`;
+    clip.style.height = `${scaledH}px`;
+    clip.style.overflow = 'hidden';
+    clip.style.transform = 'none';
 
-  stage.style.width = `${this.DESIGN_W}px`;
-  stage.style.height = `${this.DESIGN_H}px`;
-  stage.style.transform = `scale(${scale})`;
-  stage.style.transformOrigin = 'top left';
-  stage.style.position = 'absolute';
-  stage.style.top = '0';
-  stage.style.left = '0';
-}
+    stage.style.width = `${this.DESIGN_W}px`;
+    stage.style.height = `${this.DESIGN_H}px`;
+    stage.style.transform = `scale(${scale})`;
+    stage.style.transformOrigin = 'top left';
+    stage.style.position = 'absolute';
+    stage.style.top = '0';
+    stage.style.left = '0';
+  }
 
   private startResizeObserver(): void {
     this.resizeObserver = new ResizeObserver(() => {
@@ -156,10 +164,20 @@ private applyScale(): void {
   private createEntranceAnimation(): void {
     const tl = gsap.timeline();
 
-    gsap.set(['h1', '.date p', '.location', '.save-our-date', '.countdown', '.image-container'], {
-      opacity: 0,
-      y: 50,
-    });
+    gsap.set(
+      [
+        'h1',
+        '.date p',
+        '.location',
+        '.save-our-date',
+        '.countdown',
+        '.image-container',
+      ],
+      {
+        opacity: 0,
+        y: 50,
+      },
+    );
 
     gsap.set(['.mor-line', '.date-line'], { scaleY: 0 });
     gsap.set('.calendar-icon', { opacity: 0, scale: 0.5 });
@@ -168,16 +186,48 @@ private applyScale(): void {
     gsap.set('.image-container', { y: 100, opacity: 0 });
 
     tl.to('h1', { opacity: 1, y: 0, duration: 1, ease: 'back.out(1.7)' })
-      .to('.mor-line', { scaleY: 1, duration: 1.2, ease: 'power2.out' }, '-=0.5')
-      .to('.date-line', { scaleY: 1, duration: 1.2, ease: 'power2.out' }, '-=0.8')
+      .to(
+        '.mor-line',
+        { scaleY: 1, duration: 1.2, ease: 'power2.out' },
+        '-=0.5',
+      )
+      .to(
+        '.date-line',
+        { scaleY: 1, duration: 1.2, ease: 'power2.out' },
+        '-=0.8',
+      )
       .to('.mor', { x: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.3')
       .to('.batel', { x: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.4')
-      .to('.date p', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.1 }, '-=0.4')
-      .to('.location', { opacity: 1, y: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.4')
-      .to('.save-our-date', { opacity: 1, y: 0, duration: 1, ease: 'elastic.out(1, 0.75)' }, '-=0.2')
-      .to('.countdown', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5')
-      .to('.calendar-icon', { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.3')
-      .to('.image-container', { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' }, '-=0.3');
+      .to(
+        '.date p',
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.1 },
+        '-=0.4',
+      )
+      .to(
+        '.location',
+        { opacity: 1, y: 0, duration: 0.8, ease: 'back.out(1.7)' },
+        '-=0.4',
+      )
+      .to(
+        '.save-our-date',
+        { opacity: 1, y: 0, duration: 1, ease: 'elastic.out(1, 0.75)' },
+        '-=0.2',
+      )
+      .to(
+        '.countdown',
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+        '-=0.5',
+      )
+      .to(
+        '.calendar-icon',
+        { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.7)' },
+        '-=0.3',
+      )
+      .to(
+        '.image-container',
+        { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' },
+        '-=0.3',
+      );
   }
 
   private tick(doAnimate: boolean): void {
@@ -194,7 +244,12 @@ private applyScale(): void {
 
     if (now.isSameOrAfter(target)) {
       this.moStr = this.dStr = this.hStr = this.mStr = this.sStr = '00';
-      this.prevMoStr = this.prevDStr = this.prevHStr = this.prevMStr = this.prevSStr = '00';
+      this.prevMoStr =
+        this.prevDStr =
+        this.prevHStr =
+        this.prevMStr =
+        this.prevSStr =
+          '00';
       return;
     }
 
@@ -222,19 +277,29 @@ private applyScale(): void {
 
     if (doAnimate) {
       const prevDigits = [
-        this.prevMoStr[0], this.prevMoStr[1],
-        this.prevDStr[0],  this.prevDStr[1],
-        this.prevHStr[0],  this.prevHStr[1],
-        this.prevMStr[0],  this.prevMStr[1],
-        this.prevSStr[0],  this.prevSStr[1],
+        this.prevMoStr[0],
+        this.prevMoStr[1],
+        this.prevDStr[0],
+        this.prevDStr[1],
+        this.prevHStr[0],
+        this.prevHStr[1],
+        this.prevMStr[0],
+        this.prevMStr[1],
+        this.prevSStr[0],
+        this.prevSStr[1],
       ];
 
       const nextDigits = [
-        nextMo[0], nextMo[1],
-        nextD[0],  nextD[1],
-        nextH[0],  nextH[1],
-        nextM[0],  nextM[1],
-        nextS[0],  nextS[1],
+        nextMo[0],
+        nextMo[1],
+        nextD[0],
+        nextD[1],
+        nextH[0],
+        nextH[1],
+        nextM[0],
+        nextM[1],
+        nextS[0],
+        nextS[1],
       ];
 
       nextDigits.forEach((d, i) => {
