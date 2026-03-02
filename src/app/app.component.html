@@ -506,5 +506,27 @@
         <img src="assets/images/cover3.png" alt="" draggable="false" />
       </div>
     </div>
+    <!-- Calendar Choice Popup -->
+<div class="calendar-popup" *ngIf="showCalendarPopup" (click)="closeCalendarPopup()">
+  <div class="calendar-popup-content" (click)="$event.stopPropagation()">
+    <button class="popup-close" (click)="closeCalendarPopup()">✕</button>
+    <h3>Add to Calendar</h3>
+    <p>Choose your calendar app:</p>
+    <div class="calendar-options">
+      <button class="calendar-btn google" (click)="openGoogleCalendar()">
+        <span class="icon">📅</span>
+        <span>Google Calendar</span>
+      </button>
+      <button class="calendar-btn apple" (click)="downloadICS()">
+        <span class="icon">🍎</span>
+        <span>Iphone Calendar</span>
+      </button>
+      <button class="calendar-btn outlook" (click)="openOutlookCalendar()">
+        <span class="icon">📧</span>
+        <span>Outlook</span>
+      </button>
+    </div>
+  </div>
+</div>
   </div>
 </div>

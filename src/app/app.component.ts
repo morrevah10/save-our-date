@@ -35,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   showIntro = true;
   showPositionEditor = false;
   showDevButton = false;
+  showCalendarPopup = false;
 
   icsUrl = '/calendar.ics';
 
@@ -69,21 +70,31 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addToCalendar(): void {
-    const ua = navigator.userAgent || '';
-    const isIOS = /iPhone|iPad|iPod/.test(ua);
-    const isMac = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0;
-    const isApple = isIOS || isMac;
+    this.showCalendarPopup = true;
+  }
 
-    if (isApple) {
-      const link = document.createElement('a');
-      link.href = this.icsUrl;
-      link.download = 'save-our-date.ics';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      window.open(this.googleCalendarUrl, '_blank', 'noopener');
-    }
+  closeCalendarPopup(): void {
+    this.showCalendarPopup = false;
+  }
+
+  openGoogleCalendar(): void {
+    window.open(this.googleCalendarUrl, '_blank', 'noopener');
+    this.closeCalendarPopup();
+  }
+
+  openOutlookCalendar(): void {
+    window.open(this.outlookCalendarUrl, '_blank', 'noopener');
+    this.closeCalendarPopup();
+  }
+
+  downloadICS(): void {
+    const link = document.createElement('a');
+    link.href = this.icsUrl;
+    link.download = 'batel-and-mor-wedding.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    this.closeCalendarPopup();
   }
 
   onIntroDone(): void {
@@ -133,10 +144,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     const scaleX = vw / this.DESIGN_W;
     const scaleY = vh / this.DESIGN_H;
 
-    // Always fit the full design — never clip, never overflow
     const scale = Math.min(scaleX, scaleY);
 
-    // Scale the clip wrapper to match the scaled stage size exactly
     const scaledW = this.DESIGN_W * scale;
     const scaledH = this.DESIGN_H * scale;
 
