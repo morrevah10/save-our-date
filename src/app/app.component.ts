@@ -97,13 +97,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   //   this.closeCalendarPopup();
   // }
 
- downloadICS(): void {
-  const link = document.createElement('a');
-  link.href = this.icsUrl;
-  link.download = 'batel-and-mor-wedding.ics';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+//  downloadICS(): void {
+//   const link = document.createElement('a');
+//   link.href = this.icsUrl;
+//   link.download = 'batel-and-mor-wedding.ics';
+//   document.body.appendChild(link);
+//   link.click();
+//   document.body.removeChild(link);
+//   this.closeCalendarPopup();
+// }
+
+downloadICS(): void {
+  window.open(this.googleCalendarUrl, '_blank', 'noopener');
   this.closeCalendarPopup();
 }
 
