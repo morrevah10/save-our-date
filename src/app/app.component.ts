@@ -97,20 +97,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   //   this.closeCalendarPopup();
   // }
 
-  downloadICS(): void {
-  const ua = navigator.userAgent || '';
-  const isIOS = /iPhone|iPad|iPod/.test(ua);
-  
-  if (isIOS) {
-    window.location.href = 'webcal://batel-and-mor-the-wedding.com/calendar.ics';
-  } else {
-    const link = document.createElement('a');
-    link.href = this.icsUrl;
-    link.download = 'batel-and-mor-wedding.ics';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+ downloadICS(): void {
+  const link = document.createElement('a');
+  link.href = this.icsUrl;
+  link.download = 'batel-and-mor-wedding.ics';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
   this.closeCalendarPopup();
 }
 
